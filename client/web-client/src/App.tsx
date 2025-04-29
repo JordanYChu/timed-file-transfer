@@ -1,35 +1,38 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+
 import './App.css'
+import Profile from './components/Profile'
+import FileInput from './components/FileInput'
+import FileViewer from './components/FileViewer'
+import Notifications from './components/Notifications'
+import Drive from './components/Drive'
+import { useState } from 'react'
+import { SunMedium } from 'lucide-react'
+
 
 function App() {
-  const [count, setCount] = useState(0)
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    const [isDark, setIsDark] = useState(true);
+
+    const setDark = (isDark: boolean) => {
+        document.body.classList.toggle('light-theme');
+        setIsDark(!isDark);
+    }
+
+    return (
+        <>
+            <Profile />
+            <div className='main-body'>
+                <Notifications />
+                <div className='file-section'>
+                    <FileInput />
+                    <FileViewer />
+                </div>
+                <Drive />
+            </div>
+            <SunMedium className='theme' color={"black"} onClick={() => setDark(isDark)} />
+        </>
+
+    )
 }
 
 export default App

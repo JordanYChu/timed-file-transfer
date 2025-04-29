@@ -1,0 +1,43 @@
+.profile-container {
+    position: sticky;
+    padding: 0.5rem 1rem;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--bg-secondary);
+    border-bottom: 1px solid var(--border);
+}
+
+.profile-picture {
+    box-sizing: border-box;
+    aspect-ratio: 1/1;
+    height: 100%;
+    border: solid var(--primary) 2px;
+    border-radius: 100%;
+}
+
+.box:nth-child(3) {
+    height: 100%;
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.notification-button {
+    color: var(--text);
+    position: relative;
+    border: none;
+    border-radius: 1rem;
+    font-size: medium;
+    background-color: var(--bg-secondary);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+}
+
+
+
+
+

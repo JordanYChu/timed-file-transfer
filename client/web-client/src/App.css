@@ -1,42 +1,58 @@
 #root {
-  max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 0;
   text-align: center;
+
+  color: var(--text);
+  background-color: var(--bg);
+
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+
+#root {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.float {
+    box-shadow:  0 1rem 1rem rgba(0, 0, 0, 0.25);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.theme {
+    position: fixed;
+    right: 1rem;
+    bottom: 1rem;
+    width: 2rem;
+    height: 2rem;
+    padding: 0.5rem;
+    border-radius: 1rem;
+    background-color: var(--text);
 }
 
-.card {
-  padding: 2em;
+.file-section {
+    /* max-height: 100%; */
+    overflow-y: auto;
 }
 
-.read-the-docs {
-  color: #888;
+.main-body {
+    flex: 1;
+    flex-shrink: 1;
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr;
+    overflow: hidden;
+    min-height: 0;
+}
+.main-body > * {
+    /* overflow: hidden; */
+    box-sizing: border-box;
+    padding: 0 1rem;
+}
+
+.file-section::-webkit-scrollbar {
+    width: 4px;
+}
+
+.file-section::-webkit-scrollbar-thumb {
+    background: var(--border);
 }
