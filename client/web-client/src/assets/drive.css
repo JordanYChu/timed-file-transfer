@@ -1,0 +1,47 @@
+.drive-container {
+    box-sizing: border-box;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.drive {
+    width: 100%;
+    aspect-ratio: 1/1;
+    background-color: var(--bg-secondary);
+    border: solid 2px var(--border);
+    border-radius: 1rem;
+
+}
+.drive-wheel {
+    position: relative;
+    box-sizing: border-box;
+    aspect-ratio: 1/1;
+    margin: 2rem;
+    background: conic-gradient(var(--primary) 0deg, #1DCD9F 123deg, var(--border) 123deg 360deg);
+    /* background: conic-gradient(from 0deg  to 180deg, black, grey); */
+    border-radius: 100%;
+}
+
+.drive-space {
+    color: var(--text);
+    border-radius: 100%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    position: absolute;
+    height: 80% ;
+    aspect-ratio: 1/1;
+    background-color: var(--bg-secondary);
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.drive-space > div:nth-child(1) {
+    font-size: 2vw ;
+}
+.drive-space > div:nth-child(2) {
+    font-size: 1.5vw ;
+}
