@@ -29,7 +29,7 @@ const Profile = () => {
                 <div className="time-container">{time.toLocaleTimeString()}</div>
             </div>
             <div className="box">
-                <img className="profile-picture" src={`${profilePicture}`} alt="pfp" />
+                <img className="profile-picture" src={`${profilePicture}`} alt="pfp" referrerPolicy="no-referrer" />
                 <div>{name}</div>
             </div>
         </div>

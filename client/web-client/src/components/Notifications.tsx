@@ -19,7 +19,7 @@ const Notifications = () => {
         <div className="notifications">
             {notifications.map((notification, i) => {
                 return (
-                    <div className={`notification ${getClassStatus(notification.fileStatus)}`}>
+                    <div key={i} className={`notification ${getClassStatus(notification.fileStatus)}`}>
                         <div className="file-header">
                             <div className="file">{notification.fileName}</div>
                             <CircleX size={20} />

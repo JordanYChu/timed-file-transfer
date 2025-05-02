@@ -6,6 +6,7 @@ import { useNavigate } from "react-router";
 export type UserProps = {
     uid: string | null,
     name: string | null,
+    token: string | null;
     email: string | null
     picture: string | null;
 }
@@ -23,19 +24,18 @@ const AuthProvider = ({ children }: any) => {
     const navigate = useNavigate();
     const [user, setUser] = useState<UserProps | null>(null);
 
-    const login = (user: User) => {
-        setUser({
+    const login = async (user: User) => {
+        await setUser({
             uid: user.uid,
             name: user.displayName,
+            token: await user.getIdToken(),
             email: user.email,
             picture: user.photoURL
         });
-        alert("logged in probably");
         navigate("/dashboard")
     }
     const logout = () => {
         setUser(null);
-        alert("Logged out Probably");
     }
 
     const values = {
