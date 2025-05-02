@@ -10,7 +10,7 @@ const FileInput = () => {
 
     const handleFileChange = (e: any) => {
         const file = e.target.files?.[0];
-        if (!file || !userId) return;
+        if (!file || !userId || !token) return;
 
         try {
             const result = uploadFile(file, userId, token);
