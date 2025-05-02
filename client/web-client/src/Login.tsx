@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { auth } from './firebase'; // adjust the path if needed
-import { browserLocalPersistence, GoogleAuthProvider, setPersistence, signInWithPopup } from 'firebase/auth';
+import { browserLocalPersistence, getAdditionalUserInfo, GoogleAuthProvider, setPersistence, signInWithPopup } from 'firebase/auth';
 import { AuthContext } from './components/AuthProvider';
 import { createAccount } from './services/fileApi';
 
@@ -13,12 +13,18 @@ const Login = () => {
             const provider = new GoogleAuthProvider();
             try {
                 const result = await signInWithPopup(auth, provider);
-                const id = result.user.uid;
-                const name = result.user.displayName;
-                const email = result.user.email;
-                const token = await result.user.getIdToken();
-                const userResult = await createAccount(id, name, email, token)
-                if (!userResult) console.log("failed to create user", auth)
+
+                const additionalUserInfo = getAdditionalUserInfo(result);
+                const isNewUser = additionalUserInfo?.isNewUser;
+                if (isNewUser) {
+                    const id = result.user.uid;
+                    const name = result.user.displayName;
+                    const email = result.user.email;
+                    const token = await result.user.getIdToken();
+                    const userResult = await createAccount(id, name, email, token)
+                    if (!userResult) console.log("failed to create user", auth)
+                    console.log("Created new user")
+                }
                 login(result.user);
             } catch {
                 console.error("google auth");
