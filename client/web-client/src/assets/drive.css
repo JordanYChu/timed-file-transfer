@@ -18,7 +18,7 @@
     position: relative;
     box-sizing: border-box;
     aspect-ratio: 1/1;
-    margin: 2rem;
+    margin: 1rem;
     background: conic-gradient(var(--primary) 0deg, #1DCD9F 123deg, var(--border) 123deg 360deg);
     /* background: conic-gradient(from 0deg  to 180deg, black, grey); */
     border-radius: 100%;
@@ -40,7 +40,7 @@
 }
 
 .drive-space > div:nth-child(1) {
-    font-size: 2vw ;
+    font-size: 100%;
 }
 .drive-space > div:nth-child(2) {
     font-size: 1.5vw ;
