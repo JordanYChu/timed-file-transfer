@@ -3,6 +3,7 @@
     left: 0;
     top: 100%;
     width: 100%;
+    background-color: var(--bg-secondary);
 }
 
 .notification {

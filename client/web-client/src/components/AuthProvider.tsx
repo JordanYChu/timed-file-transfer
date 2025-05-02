@@ -36,6 +36,7 @@ const AuthProvider = ({ children }: any) => {
     }
     const logout = () => {
         setUser(null);
+        navigate("/login")
     }
 
     const values = {

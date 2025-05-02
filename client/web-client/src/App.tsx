@@ -21,7 +21,8 @@ function App() {
             <AuthProvider>
                 <Routes>
                     <Route path={"/dashboard"} element={<Dashboard />}></Route>
-                    <Route path={"/"} element={<Login />}></Route>
+                    <Route path={"/"} element={<Dashboard />}></Route>
+                    <Route path={"/login"} element={<Login />}></Route>
                 </Routes>
                 <SunMedium className='theme' color={"black"} onClick={() => setDark(isDark)} />
             </AuthProvider>

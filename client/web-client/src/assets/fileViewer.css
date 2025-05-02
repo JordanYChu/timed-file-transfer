@@ -68,16 +68,24 @@ select:focus {
 
 .file-preview {
     object-fit: cover;
-    display: block;
     height: 100%;
-    width: 100%;
+    width: auto;
     overflow: hidden;
 }
+
+.file-icon {
+    box-sizing: border-box;
+    padding: 1rem;
+}
+
 .file-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 0.5rem;
+}
+.file-header > *:nth-child(3) {
+    cursor: pointer;
 }
 
 .file-footer {
@@ -129,22 +137,12 @@ td {
 .unfocus-screen {
     position: fixed;
     left: 0;
+    z-index: 1;
     top: 0;
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
     filter: blur(10rem);
-}
-.info-card {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 25rem;
-    height: 30rem;
-    background: var(--bg-secondary);
-    border: solid 2px var(--border);
-    border-radius: 1rem;
 }
 
 select:hover {

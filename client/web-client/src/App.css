@@ -31,8 +31,9 @@
 }
 
 .file-section {
-    /* max-height: 100%; */
-    overflow-y: auto;
+    overflow-y: scroll;
+    scrollbar-gutter: stable;
+    height: 100%;
 }
 
 .main-body {

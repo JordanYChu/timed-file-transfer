@@ -1,14 +1,16 @@
 import { useContext, useEffect, useInsertionEffect, useState } from "react";
 import "../assets/navbar.css"
-import { Bell } from "lucide-react";
+import { Bell, LogOutIcon } from "lucide-react";
 import { AuthContext } from "./AuthProvider";
 
 const Profile = () => {
 
     const user = useContext(AuthContext).user;
+    const { logout } = useContext(AuthContext);
     const name = user?.name;
     const profilePicture = user?.picture;
 
+    const [profileDropDown, setProfileDropDown] = useState(false);
     const [time, setTime] = useState<Date>(new Date());
     useEffect(() => {
         const timeInterval = setInterval(() => {
@@ -29,8 +31,12 @@ const Profile = () => {
                 <div className="time-container">{time.toLocaleTimeString()}</div>
             </div>
             <div className="box">
-                <img className="profile-picture" src={`${profilePicture}`} alt="pfp" referrerPolicy="no-referrer" />
+                <img onClick={() => setProfileDropDown(!profileDropDown)} className="profile-picture" src={`${profilePicture}`} alt="pfp" referrerPolicy="no-referrer" />
                 <div>{name}</div>
+                {profileDropDown &&
+                    <div className="dropdown">
+                        <button onClick={() => logout()}>Logout <LogOutIcon size={16} /></button>
+                    </div>}
             </div>
         </div>
     )
