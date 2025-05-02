@@ -4,8 +4,14 @@ import FileInput from './components/FileInput'
 import FileViewer from './components/FileViewer'
 import Notifications from './components/Notifications'
 import Drive from './components/Drive'
-
+import { AuthContext } from './components/AuthProvider'
+import { useContext } from 'react'
+import { Navigate } from 'react-router'
 const Dashboard = () => {
+
+    const { user } = useContext(AuthContext);
+    if (!user) return <Navigate to="/" replace />;
+
     return (
         <>
             <Profile />

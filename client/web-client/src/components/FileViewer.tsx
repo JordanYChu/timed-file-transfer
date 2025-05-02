@@ -10,13 +10,6 @@ const fileTypes = [
     "png",
     "jpg",
     "webpg",
-    "",
-    "txt",
-    "txt",
-    "txt",
-    "txt",
-    "txt",
-
 ]
 
 const FileViewer = () => {
@@ -79,12 +72,11 @@ const FileViewer = () => {
                         <input type="text" placeholder="Search..." />
                         <Search />
                     </div>
-                    <button>File Type</button>
-                    <select name="file-types" id="file-types">
-                        <option value="i">i</option>
-                        <option value="am">am</option>
-                        <option value="tired">tired</option>
+                    <select aria-label="file type select" name="file-types" id="file-types">
+                        <option value="all">all</option>
+                        {fileTypes.map(fileType => <option value={fileType}>{fileType}</option>)}
                     </select>
+                    <button>Recent</button>
                     {showGrid ? <List className="show-type" onClick={() => setShowGrid(!showGrid)} /> :
                         <Box className="show-type" onClick={() => setShowGrid(!showGrid)} />}
                 </div>

@@ -1,8 +1,14 @@
-import { useEffect, useInsertionEffect, useState } from "react";
+import { useContext, useEffect, useInsertionEffect, useState } from "react";
 import "../assets/navbar.css"
 import { Bell } from "lucide-react";
+import { AuthContext } from "./AuthProvider";
 
 const Profile = () => {
+
+    const user = useContext(AuthContext).user;
+    const name = user?.name;
+    const profilePicture = user?.picture;
+
     const [time, setTime] = useState<Date>(new Date());
     useEffect(() => {
         const timeInterval = setInterval(() => {
@@ -23,7 +29,8 @@ const Profile = () => {
                 <div className="time-container">{time.toLocaleTimeString()}</div>
             </div>
             <div className="box">
-                <img className="profile-picture" src="/public/vite.svg" alt="pfp" />
+                <img className="profile-picture" src={`${profilePicture}`} alt="pfp" />
+                <div>{name}</div>
             </div>
         </div>
     )

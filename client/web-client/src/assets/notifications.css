@@ -41,3 +41,9 @@
 .file-status {
     color: grey
 }
+
+.profile-picture {
+    height: 2.5rem;
+    width: 2.5rem;
+}
+

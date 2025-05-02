@@ -41,9 +41,7 @@ input:hover {
     border: none;
 }
 
-select {
-    
-}
+
 select:focus {
     border-color: var(--primary);
 }
@@ -138,4 +136,12 @@ td {
     background: var(--bg-secondary);
     border: solid 2px var(--border);
     border-radius: 1rem;
+}
+
+select:hover {
+    cursor: pointer
+}
+
+button {
+    cursor: pointer;
 }
