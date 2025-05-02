@@ -4,6 +4,8 @@ import multer from 'multer';
 
 import uploadFileHandler from './routes/upload';
 import { authenticate } from './auth';
+// At the top of your main entry point
+
 
 const app = express();
 app.use(express.json());

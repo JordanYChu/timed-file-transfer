@@ -17,7 +17,7 @@ export const authenticate = async (
 
   try {
     const decodedToken = await admin.auth().verifyIdToken(idToken);
-    req.user = decodedToken; // Attach the decoded token to the request
+    (req as any).user = decodedToken; // Attach the decoded token to the request
     next(); // Proceed to the next middleware or route handler
   } catch (error) {
     res.status(401).json({ error: 'Unauthorized: Invalid token' });
