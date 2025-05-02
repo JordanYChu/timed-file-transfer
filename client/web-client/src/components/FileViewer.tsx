@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import "../assets/fileViewer.css";
 import { Search, List, Box, Settings2, FileText } from "lucide-react";
+import { AuthContext } from "./AuthProvider";
 
 const fileTypes = [
     "txt",
@@ -13,7 +14,8 @@ const fileTypes = [
 ]
 
 const FileViewer = () => {
-    const [fileType, setFileType] = useState(".txt");
+    const image = useContext(AuthContext).user?.picture;
+    const [fileType, setFileType] = useState("all");
     const [search, setSearch] = useState("");
     const [showGrid, setShowGrid] = useState(true);
     const [selectedFile, setSelectedFile] = useState<number | null>(null);
@@ -56,7 +58,7 @@ const FileViewer = () => {
                     <span className="file-type">{name}</span>
                     <Settings2 onClick={() => setSelectedFile(index)} />
                 </div>
-                <img src="" alt="" />
+                <img className="file-preview" src={`${image}`} alt="image" referrerPolicy="no-referrer" />
                 <div className="file-footer">
                     <span className="file-type">time</span>
                 </div>
@@ -74,7 +76,7 @@ const FileViewer = () => {
                     </div>
                     <select aria-label="file type select" name="file-types" id="file-types">
                         <option value="all">all</option>
-                        {fileTypes.map(fileType => <option value={fileType}>{fileType}</option>)}
+                        {fileTypes.map((fileType, i) => <option key={i} value={fileType}>{fileType}</option>)}
                     </select>
                     <button>Recent</button>
                     {showGrid ? <List className="show-type" onClick={() => setShowGrid(!showGrid)} /> :

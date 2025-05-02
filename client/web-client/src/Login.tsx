@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { auth } from './firebase'; // adjust the path if needed
-import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { browserLocalPersistence, GoogleAuthProvider, setPersistence, signInWithPopup } from 'firebase/auth';
 import { AuthContext } from './components/AuthProvider';
 
 const Login = () => {
@@ -8,13 +8,16 @@ const Login = () => {
     const { login } = useContext(AuthContext);
 
     const handleGoogleAuth = async (e: any) => {
-        const provider = new GoogleAuthProvider();
-        try {
-            const result = await signInWithPopup(auth, provider);
-            login(result.user);
-        } catch {
-            console.error("google auth");
+        setPersistence(auth, browserLocalPersistence).then(async () => {
+            const provider = new GoogleAuthProvider();
+            try {
+                const result = await signInWithPopup(auth, provider);
+                login(result.user);
+            } catch {
+                console.error("google auth");
+            }
         }
+        )
     }
 
     return (

@@ -5,12 +5,23 @@ import FileViewer from './components/FileViewer'
 import Notifications from './components/Notifications'
 import Drive from './components/Drive'
 import { AuthContext } from './components/AuthProvider'
-import { useContext } from 'react'
+import { use, useContext, useEffect, useState } from 'react'
 import { Navigate } from 'react-router'
+import { auth } from "./firebase"
+import { onAuthStateChanged } from 'firebase/auth'
 const Dashboard = () => {
 
-    const { user } = useContext(AuthContext);
-    if (!user) return <Navigate to="/" replace />;
+    const [loading, setLoading] = useState(true);
+    const { login } = useContext(AuthContext);
+
+    useEffect(() => {
+        onAuthStateChanged(auth, (user) => {
+            if (user) login(user);
+        })
+        setLoading(false);
+    }, [auth])
+
+    if (loading) return <div>Loading...</div>
 
     return (
         <>
