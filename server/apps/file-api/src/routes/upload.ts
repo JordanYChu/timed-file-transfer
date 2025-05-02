@@ -3,7 +3,7 @@ import { uploadToS3 } from '../s3';
 import prisma from '../prisma';
 import { v4 as uuid } from 'uuid';
 
-export default async function uploadRoute(
+export default async function uploadFileHandler(
   req: Request,
   res: Response
 ): Promise<void> {
