@@ -1,13 +1,11 @@
 
 import './App.css'
-import Profile from './components/Profile'
-import FileInput from './components/FileInput'
-import FileViewer from './components/FileViewer'
-import Notifications from './components/Notifications'
-import Drive from './components/Drive'
+import AuthProvider from './components/AuthProvider'
+import Dashboard from './Dashboard'
+import Login from './login'
 import { useState } from 'react'
 import { SunMedium } from 'lucide-react'
-
+import { BrowserRouter, Router, Routes, Route } from 'react-router'
 
 function App() {
 
@@ -19,19 +17,15 @@ function App() {
     }
 
     return (
-        <>
-            <Profile />
-            <div className='main-body'>
-                <Notifications />
-                <div className='file-section'>
-                    <FileInput />
-                    <FileViewer />
-                </div>
-                <Drive />
-            </div>
+        <AuthProvider>
+            <BrowserRouter>
+                <Routes>
+                    <Route path={"/dashboard"} element={<Dashboard />}></Route>
+                    <Route path={"/"} element={<Login />}></Route>
+                </Routes>
+            </BrowserRouter>
             <SunMedium className='theme' color={"black"} onClick={() => setDark(isDark)} />
-        </>
-
+        </AuthProvider>
     )
 }
 
