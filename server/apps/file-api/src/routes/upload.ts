@@ -12,6 +12,7 @@ export default async function uploadFileHandler(
     return;
   }
   console.log("uploadfilehandler");
+  console.log('Request body:', req.body);
   const { userId, receiverId } = req.body;
   if (!userId) {
     res.status(400).json({ error: 'Missing userId' });

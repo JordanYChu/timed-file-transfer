@@ -18,19 +18,19 @@ datasource db {
 model File {
   id         String     @id @default(uuid()) @db.Uuid
   filename   String
-  s3Key      String // Relative path or S3 key
+  s3Key      String     @unique // Relative path or S3 key
   fileSize   BigInt // In bytes
   status     FileStatus @default(PENDING)
   createdAt  DateTime   @default(now())
   expiresAt  DateTime
-  senderId   String     @db.Uuid
+  senderId   String     
   sender     User       @relation("SentFiles", fields: [senderId], references: [id])
-  receiverId String?    @db.Uuid // optional: null until claimed
+  receiverId String? 
   receiver   User?      @relation("ReceivedFiles", fields: [receiverId], references: [id])
 }
 
 model User {
-  id            String @id @default(uuid()) @db.Uuid
+  id            String @id
   name          String
   sentFiles     File[] @relation("SentFiles")
   receivedFiles File[] @relation("ReceivedFiles")
@@ -43,3 +43,4 @@ enum FileStatus {
   EXPIRED
   DELETED
 }
+

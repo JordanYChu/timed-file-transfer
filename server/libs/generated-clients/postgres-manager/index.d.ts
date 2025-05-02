@@ -3413,8 +3413,8 @@ export namespace Prisma {
     status?: EnumFileStatusFilter<"File"> | $Enums.FileStatus
     createdAt?: DateTimeFilter<"File"> | Date | string
     expiresAt?: DateTimeFilter<"File"> | Date | string
-    senderId?: UuidFilter<"File"> | string
-    receiverId?: UuidNullableFilter<"File"> | string | null
+    senderId?: StringFilter<"File"> | string
+    receiverId?: StringNullableFilter<"File"> | string | null
     sender?: XOR<UserScalarRelationFilter, UserWhereInput>
     receiver?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
   }
@@ -3435,20 +3435,20 @@ export namespace Prisma {
 
   export type FileWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    s3Key?: string
     AND?: FileWhereInput | FileWhereInput[]
     OR?: FileWhereInput[]
     NOT?: FileWhereInput | FileWhereInput[]
     filename?: StringFilter<"File"> | string
-    s3Key?: StringFilter<"File"> | string
     fileSize?: BigIntFilter<"File"> | bigint | number
     status?: EnumFileStatusFilter<"File"> | $Enums.FileStatus
     createdAt?: DateTimeFilter<"File"> | Date | string
     expiresAt?: DateTimeFilter<"File"> | Date | string
-    senderId?: UuidFilter<"File"> | string
-    receiverId?: UuidNullableFilter<"File"> | string | null
+    senderId?: StringFilter<"File"> | string
+    receiverId?: StringNullableFilter<"File"> | string | null
     sender?: XOR<UserScalarRelationFilter, UserWhereInput>
     receiver?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
-  }, "id">
+  }, "id" | "s3Key">
 
   export type FileOrderByWithAggregationInput = {
     id?: SortOrder
@@ -3478,15 +3478,15 @@ export namespace Prisma {
     status?: EnumFileStatusWithAggregatesFilter<"File"> | $Enums.FileStatus
     createdAt?: DateTimeWithAggregatesFilter<"File"> | Date | string
     expiresAt?: DateTimeWithAggregatesFilter<"File"> | Date | string
-    senderId?: UuidWithAggregatesFilter<"File"> | string
-    receiverId?: UuidNullableWithAggregatesFilter<"File"> | string | null
+    senderId?: StringWithAggregatesFilter<"File"> | string
+    receiverId?: StringNullableWithAggregatesFilter<"File"> | string | null
   }
 
   export type UserWhereInput = {
     AND?: UserWhereInput | UserWhereInput[]
     OR?: UserWhereInput[]
     NOT?: UserWhereInput | UserWhereInput[]
-    id?: UuidFilter<"User"> | string
+    id?: StringFilter<"User"> | string
     name?: StringFilter<"User"> | string
     sentFiles?: FileListRelationFilter
     receivedFiles?: FileListRelationFilter
@@ -3521,7 +3521,7 @@ export namespace Prisma {
     AND?: UserScalarWhereWithAggregatesInput | UserScalarWhereWithAggregatesInput[]
     OR?: UserScalarWhereWithAggregatesInput[]
     NOT?: UserScalarWhereWithAggregatesInput | UserScalarWhereWithAggregatesInput[]
-    id?: UuidWithAggregatesFilter<"User"> | string
+    id?: StringWithAggregatesFilter<"User"> | string
     name?: StringWithAggregatesFilter<"User"> | string
   }
 
@@ -3608,14 +3608,14 @@ export namespace Prisma {
   }
 
   export type UserCreateInput = {
-    id?: string
+    id: string
     name: string
     sentFiles?: FileCreateNestedManyWithoutSenderInput
     receivedFiles?: FileCreateNestedManyWithoutReceiverInput
   }
 
   export type UserUncheckedCreateInput = {
-    id?: string
+    id: string
     name: string
     sentFiles?: FileUncheckedCreateNestedManyWithoutSenderInput
     receivedFiles?: FileUncheckedCreateNestedManyWithoutReceiverInput
@@ -3636,7 +3636,7 @@ export namespace Prisma {
   }
 
   export type UserCreateManyInput = {
-    id?: string
+    id: string
     name: string
   }
 
@@ -3706,7 +3706,7 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
-  export type UuidNullableFilter<$PrismaModel = never> = {
+  export type StringNullableFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
     notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -3714,8 +3714,11 @@ export namespace Prisma {
     lte?: string | StringFieldRefInput<$PrismaModel>
     gt?: string | StringFieldRefInput<$PrismaModel>
     gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
     mode?: QueryMode
-    not?: NestedUuidNullableFilter<$PrismaModel> | string | null
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
   export type UserScalarRelationFilter = {
@@ -3850,7 +3853,7 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
-  export type UuidNullableWithAggregatesFilter<$PrismaModel = never> = {
+  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
     notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -3858,8 +3861,11 @@ export namespace Prisma {
     lte?: string | StringFieldRefInput<$PrismaModel>
     gt?: string | StringFieldRefInput<$PrismaModel>
     gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
     mode?: QueryMode
-    not?: NestedUuidNullableWithAggregatesFilter<$PrismaModel> | string | null
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedStringNullableFilter<$PrismaModel>
     _max?: NestedStringNullableFilter<$PrismaModel>
@@ -4082,7 +4088,7 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
-  export type NestedUuidNullableFilter<$PrismaModel = never> = {
+  export type NestedStringNullableFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
     notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -4090,7 +4096,10 @@ export namespace Prisma {
     lte?: string | StringFieldRefInput<$PrismaModel>
     gt?: string | StringFieldRefInput<$PrismaModel>
     gte?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedUuidNullableFilter<$PrismaModel> | string | null
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
   export type NestedUuidWithAggregatesFilter<$PrismaModel = never> = {
@@ -4186,7 +4195,7 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
-  export type NestedUuidNullableWithAggregatesFilter<$PrismaModel = never> = {
+  export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
     notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -4194,7 +4203,10 @@ export namespace Prisma {
     lte?: string | StringFieldRefInput<$PrismaModel>
     gt?: string | StringFieldRefInput<$PrismaModel>
     gte?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedUuidNullableWithAggregatesFilter<$PrismaModel> | string | null
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedStringNullableFilter<$PrismaModel>
     _max?: NestedStringNullableFilter<$PrismaModel>
@@ -4211,28 +4223,14 @@ export namespace Prisma {
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
-  export type NestedStringNullableFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedStringNullableFilter<$PrismaModel> | string | null
-  }
-
   export type UserCreateWithoutSentFilesInput = {
-    id?: string
+    id: string
     name: string
     receivedFiles?: FileCreateNestedManyWithoutReceiverInput
   }
 
   export type UserUncheckedCreateWithoutSentFilesInput = {
-    id?: string
+    id: string
     name: string
     receivedFiles?: FileUncheckedCreateNestedManyWithoutReceiverInput
   }
@@ -4243,13 +4241,13 @@ export namespace Prisma {
   }
 
   export type UserCreateWithoutReceivedFilesInput = {
-    id?: string
+    id: string
     name: string
     sentFiles?: FileCreateNestedManyWithoutSenderInput
   }
 
   export type UserUncheckedCreateWithoutReceivedFilesInput = {
-    id?: string
+    id: string
     name: string
     sentFiles?: FileUncheckedCreateNestedManyWithoutSenderInput
   }
@@ -4396,8 +4394,8 @@ export namespace Prisma {
     status?: EnumFileStatusFilter<"File"> | $Enums.FileStatus
     createdAt?: DateTimeFilter<"File"> | Date | string
     expiresAt?: DateTimeFilter<"File"> | Date | string
-    senderId?: UuidFilter<"File"> | string
-    receiverId?: UuidNullableFilter<"File"> | string | null
+    senderId?: StringFilter<"File"> | string
+    receiverId?: StringNullableFilter<"File"> | string | null
   }
 
   export type FileUpsertWithWhereUniqueWithoutReceiverInput = {
