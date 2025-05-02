@@ -24,7 +24,7 @@ const FileInput = () => {
         <div className="file-input float">
             <Upload size={48} />
             <h2 style={{ margin: "0.5rem", fontSize: "medium" }}> Drag and Drop Here</h2>
-            <input type="file" onClick={handleFileChange} />
+            <input type="file" onChange={handleFileChange} />
         </div >
     )
 }
