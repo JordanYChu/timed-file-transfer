@@ -1,14 +1,18 @@
 import { Upload } from "lucide-react";
 import "../assets/inputSection.css";
 import { uploadFile } from "../services/fileApi";
+import { useContext } from "react";
+import { AuthContext } from "./AuthProvider";
 
 const FileInput = () => {
+    const userId = useContext(AuthContext).user?.uid
+
     const handleFileChange = (e: any) => {
         const file = e.target.files?.[0];
-        if (!file) return;
+        if (!file || !userId) return;
 
         try {
-            const result = uploadFile(file);
+            const result = uploadFile(file, userId);
             console.log(result);
 
         } catch (error) {
