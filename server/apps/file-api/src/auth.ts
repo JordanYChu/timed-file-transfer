@@ -19,6 +19,7 @@ export const authenticate = async (
   try {
     const decodedToken = await admin.auth().verifyIdToken(idToken);
     (req as any).user = decodedToken; // Attach the decoded token to the request
+    console.log(decodedToken)
     next(); // Proceed to the next middleware or route handler
   } catch (error) {
     console.log("auth.ts Error:" + error)

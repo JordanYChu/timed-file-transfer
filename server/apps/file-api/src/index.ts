@@ -4,6 +4,7 @@ import multer from 'multer';
 import cors from 'cors';
 import uploadFileHandler from './routes/upload';
 import newUserHandler from './routes/register-user'
+import retrieveUserFiles from './routes/user-files';
 
 import { authenticate } from './auth';
 // At the top of your main entry point
@@ -20,6 +21,7 @@ app.use(authenticate)
 
 app.post('/upload', upload.single('file'), uploadFileHandler);
 app.post('/register-user', upload.none(), newUserHandler);
+app.get('/user-files', upload.none(), retrieveUserFiles);
 
 app.listen(3000, () => {
   console.log('File API listening on http://localhost:3000');
