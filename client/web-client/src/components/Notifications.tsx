@@ -1,23 +1,17 @@
 import { CircleX } from "lucide-react";
 import "../assets/notifications.css"
 
-type Notification = {
+export type FileNotification = {
     fileName: string,
     message: string,
     fileStatus: number;
 }
-const Notifications = () => {
-
-    const notifications: Notification[] = [
-        { fileName: "Malcom", message: "Uploading...", fileStatus: 0 },
-        { fileName: "in", message: "Success...", fileStatus: 2 },
-        { fileName: "the", message: "Failed...", fileStatus: 1 },
-        { fileName: "middle", message: "Uploading...", fileStatus: 0 },
-    ]
+const Notifications = ({ notifications }: { notifications: { [key: string]: FileNotification } }) => {
 
     return (
         <div className="notifications">
-            {notifications.map((notification, i) => {
+            {Object.keys(notifications).map((id, i) => {
+                const notification = notifications[id];
                 return (
                     <div key={i} className={`notification ${getClassStatus(notification.fileStatus)}`}>
                         <div className="file-header">
@@ -34,7 +28,7 @@ const Notifications = () => {
 
 
 const getClassStatus = (fileStatus: number) => {
-    return ""
+    // return ""
     switch (fileStatus) {
         case 1: {
             return "error";

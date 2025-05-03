@@ -10,12 +10,25 @@
     box-sizing: border-box;
     padding-left: 0.5rem;
     text-align: start;
+    width: 100%;
     background-color: var(--bg-secondary);
     border: solid 2px var(--border);
     border-radius: 1rem;
     box-shadow: 0 0.5em  0 var(--border),
                 0 1rem 1rem rgba(0, 0, 0, 0.25);
     margin: 1rem 0;
+    transform: translateX(-100%);
+    transition-duration: 250ms;
+    animation: notificationSlide ease-out 0.25s forwards;
+}
+
+@keyframes notificationSlide {
+    from {
+        transform: translateX(-100%);
+    }
+    to {
+        transform: translateX(0);
+    }
 }
 
 .error {
@@ -36,6 +49,9 @@
 
 
 .file {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow:ellipsis;
     font-weight: bold;
 }
 

@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useMemo, useState } from "react";
 import "../assets/fileViewer.css";
 import { Search, List, Box, Settings2, FileText } from "lucide-react";
 import { AuthContext } from "./AuthProvider";
@@ -12,7 +12,6 @@ const formatDate = (iso: string) => new Date(iso).toLocaleDateString();
 const formatSize = (bytes: number) => `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
 
 const InfoCard = ({ file }: { file: FileMetaDeta }) => {
-
     return (
         <div className="info-card">
             <div className="info-header">
@@ -51,7 +50,6 @@ const InfoCard = ({ file }: { file: FileMetaDeta }) => {
 
 const FileViewer = () => {
     const filesMetaData = useContext(FileSystemContext)
-    console.log(filesMetaData)
     const [fileType, setFileType] = useState("All");
     const [search, setSearch] = useState("");
     const [showGrid, setShowGrid] = useState(true);
@@ -96,6 +94,7 @@ const FileViewer = () => {
     const handleFileTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setFileType(e.target.value);
     }
+
     return (
         <>
             <div className="viewer">
