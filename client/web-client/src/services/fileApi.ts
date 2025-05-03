@@ -5,6 +5,7 @@ export const uploadFile = async (file: File, userId: string, token: string) => {
     formData.append('userId', userId)
 
     const response = await fetch('http://localhost:3000/upload', {
+        mode: 'no-cors',
         method: "POST",
         body: formData,
         headers: {
