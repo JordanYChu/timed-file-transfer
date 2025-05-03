@@ -10,17 +10,26 @@ import { Navigate } from 'react-router'
 import { auth } from "./firebase"
 import { onAuthStateChanged } from 'firebase/auth'
 import FileSystemProvider from './FileSystemProvider'
+import { FileNotification } from './components/Notifications'
 const Dashboard = () => {
 
     const [loading, setLoading] = useState(true);
     const { login } = useContext(AuthContext);
 
+    const [notifications, setNotifications] = useState<{ [key: string]: FileNotification }>({});
+
+    const changeNotification = (id: string, notification: FileNotification) => {
+        setNotifications((prev) => ({ ...prev, [id]: notification }));
+
+        console.log("Updated notifications")
+    }
+
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
             if (user) login(user);
+            setLoading(false);
         })
-        setLoading(false);
-    }, [auth])
+    }, [])
 
     if (loading) return <div>Loading...</div>
 
@@ -29,9 +38,9 @@ const Dashboard = () => {
             <Profile />
             <FileSystemProvider>
                 <div className='main-body'>
-                    <Notifications />
+                    <Notifications notifications={notifications} />
                     <div className='file-section'>
-                        <FileInput />
+                        <FileInput changeUploadStatus={changeNotification} />
                         <FileViewer />
                     </div>
                     <Drive />

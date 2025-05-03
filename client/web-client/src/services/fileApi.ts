@@ -4,20 +4,22 @@ export const uploadFile = async (file: File, userId: string, token: string) => {
     formData.append('file', file);
     formData.append('userId', userId)
 
-    const response = await fetch('http://localhost:3000/upload', {
-        mode: 'no-cors',
-        method: "POST",
-        body: formData,
-        headers: {
-            'Authorization': `Bearer ${token}`
-        }
-    });
+    try {
+        const response = await fetch('http://localhost:3000/upload', {
+            method: "POST",
+            body: formData,
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
 
-    if (!response.ok) {
-        console.error("Post file");
+        if (!response.ok) console.error("Post file");
+        const data = await response.status;
+        return data;
+    } catch (error) {
+        console.error('Error uploading: ', error);
     }
 
-    return await response.json();
 }
 
 export const createAccount = async (id: string, name: string | null, email: string | null, token: string) => {

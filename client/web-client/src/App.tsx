@@ -9,12 +9,12 @@ import { BrowserRouter, Router, Routes, Route } from 'react-router'
 
 function App() {
 
-    const [isDark, setIsDark] = useState(true);
+    // const [isDark, setIsDark] = useState(true);
 
-    const setDark = (isDark: boolean) => {
-        document.body.classList.toggle('light-theme');
-        setIsDark(!isDark);
-    }
+    // const setDark = (isDark: boolean) => {
+    //     document.body.classList.toggle('light-theme');
+    //     setIsDark(!isDark);
+    // }
 
     return (
         <BrowserRouter>
@@ -24,7 +24,7 @@ function App() {
                     <Route path={"/"} element={<Dashboard />}></Route>
                     <Route path={"/login"} element={<Login />}></Route>
                 </Routes>
-                <SunMedium className='theme' color={"black"} onClick={() => setDark(isDark)} />
+                {/* <SunMedium className='theme' color={"black"} onClick={() => setDark(isDark)} /> */}
             </AuthProvider>
         </BrowserRouter>
     )
