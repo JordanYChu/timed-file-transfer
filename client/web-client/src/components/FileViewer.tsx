@@ -2,16 +2,16 @@ import { useContext, useState } from "react";
 import "../assets/fileViewer.css";
 import { Search, List, Box, Settings2, FileText } from "lucide-react";
 import { AuthContext } from "./AuthProvider";
-import { fallbackIcon, fileTypeMapping, fileTypes, FileMetaDeta } from "../fileMapping";
+import { fallbackIcon, fileTypeMapping, fileTypes, FileMetaData } from "../fileMapping";
 import "../assets/infoCard.css"
 import { FileSystemContext } from "../FileSystemProvider";
-
+import "../assets/loader.css"
 
 
 const formatDate = (iso: string) => new Date(iso).toLocaleDateString();
 const formatSize = (bytes: number) => `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
 
-const InfoCard = ({ file }: { file: FileMetaDeta }) => {
+const InfoCard = ({ file }: { file: FileMetaData }) => {
 
     return (
         <div className="info-card">
@@ -50,21 +50,28 @@ const InfoCard = ({ file }: { file: FileMetaDeta }) => {
 }
 
 const FileViewer = () => {
-    const filesMetaData = useContext(FileSystemContext)
-    console.log(filesMetaData)
+    const files = useContext(FileSystemContext).systemInfo.files;
+    const { isLoading, error } = useContext(FileSystemContext).systemStatus;
+    console.log(files)
     const [fileType, setFileType] = useState("All");
     const [search, setSearch] = useState("");
     const [showGrid, setShowGrid] = useState(true);
     const [selectedFile, setSelectedFile] = useState<number | null>(null);
 
-    const FileCard = ({ file, index }: { file: FileMetaDeta, index: number }) => {
+    const FileCard = ({ file, index }: { file: FileMetaData, index: number }) => {
         const FileIcon = fileTypeMapping[file.fileExtension]?.icon || fallbackIcon;
         return (
             <div className="file-card">
                 <div className="file-header">
-                    <FileIcon />
-                    <span className="file-type">{file.name}</span>
-                    <Settings2 onClick={() => setSelectedFile(index)} />
+                    <div className="fixed">
+                        <FileIcon />
+                    </div>
+                    <div className="file-type">
+                        <p>{file.name}</p>
+                    </ div>
+                    <div className="fixed">
+                        <Settings2 onClick={() => setSelectedFile(index)} />
+                    </div>
                 </div>
                 <div className="file-preview">
                     <FileIcon className="file-icon" style={{ height: "100%", width: "100%" }} />
@@ -77,7 +84,7 @@ const FileViewer = () => {
         )
     }
 
-    const filterFiles = (files: FileMetaDeta[]) => {
+    const filterFiles = (files: FileMetaData[]) => {
 
         if (fileType === "All") return files.filter(file => file.name.includes(search))
 
@@ -112,13 +119,25 @@ const FileViewer = () => {
                     {showGrid ? <List className="show-type" onClick={() => setShowGrid(!showGrid)} /> :
                         <Box className="show-type" onClick={() => setShowGrid(!showGrid)} />}
                 </div>
-                {showGrid && <div className="file-cards">
-                    {filterFiles(filesMetaData).map((file, i) => {
+                {isLoading &&
+                    <div className="loading-files">
+                        <div className="generic-spinner"></div>
+                        <div className="loader-message">Loading Files</div>
+                    </div>
+                }
+                {error &&
+                    <div className="loading-files">
+                        {/* <button onClick={ }>retry</button> */}
+                        <div className="loader-message">{error}</div>
+                    </div>
+                }
+                {showGrid && !isLoading && !error && <div className="file-cards">
+                    {filterFiles(files).map((file, i) => {
                         return <FileCard key={i} file={file} index={i}></FileCard>
                     })}
                 </div>}
-                {!showGrid && <table>
-                    {/* <tbody>
+                {/* {!showGrid && <table> */}
+                {/* <tbody>
                         <tr>
                             <td>File Name</td>
                             <td>Type</td>
@@ -134,12 +153,12 @@ const FileViewer = () => {
                             )
                         })}
                     </tbody> */}
-                </table>}
+                {/* </table>} */}
             </div>
             {selectedFile !== null &&
                 <>
                     <div className="unfocus-screen" onClick={() => setSelectedFile(null)}></div>
-                    <InfoCard file={filesMetaData[selectedFile]} />
+                    <InfoCard file={files[selectedFile]} />
                 </>
             }
         </>

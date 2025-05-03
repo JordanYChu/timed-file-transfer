@@ -10,16 +10,18 @@ import { Navigate } from 'react-router'
 import { auth } from "./firebase"
 import { onAuthStateChanged } from 'firebase/auth'
 import FileSystemProvider from './FileSystemProvider'
+import { getUserFiles } from './services/fileApi'
 const Dashboard = () => {
 
     const [loading, setLoading] = useState(true);
     const { login } = useContext(AuthContext);
 
     useEffect(() => {
-        onAuthStateChanged(auth, (user) => {
+        onAuthStateChanged(auth, async (user) => {
             if (user) login(user);
+
+            setLoading(false);
         })
-        setLoading(false);
     }, [auth])
 
     if (loading) return <div>Loading...</div>
