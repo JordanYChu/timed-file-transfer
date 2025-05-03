@@ -9,6 +9,7 @@ import { use, useContext, useEffect, useState } from 'react'
 import { Navigate } from 'react-router'
 import { auth } from "./firebase"
 import { onAuthStateChanged } from 'firebase/auth'
+import FileSystemProvider from './FileSystemProvider'
 const Dashboard = () => {
 
     const [loading, setLoading] = useState(true);
@@ -26,14 +27,16 @@ const Dashboard = () => {
     return (
         <>
             <Profile />
-            <div className='main-body'>
-                <Notifications />
-                <div className='file-section'>
-                    <FileInput />
-                    <FileViewer />
+            <FileSystemProvider>
+                <div className='main-body'>
+                    <Notifications />
+                    <div className='file-section'>
+                        <FileInput />
+                        <FileViewer />
+                    </div>
+                    <Drive />
                 </div>
-                <Drive />
-            </div>
+            </FileSystemProvider>
         </>
     )
 }

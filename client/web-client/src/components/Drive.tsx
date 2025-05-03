@@ -1,15 +1,17 @@
+import { useContext } from "react";
 import "../assets/drive.css"
 import { fileTypes } from "../fileMapping";
+import { FileSystemContext } from "../FileSystemProvider";
 
 const Drive = () => {
-
-
+    const files = useContext(FileSystemContext);
+    const usedSpace = Object.values(files).reduce((sum, file) => sum + file.fileSize, 0);
     return (
         <div className="drive-container">
             <div className="drive float">
                 <div className="drive-wheel">
                     <div className="drive-space">
-                        <div className="space">100 GB</div>
+                        <div className="space">{usedSpace} b</div>
                         <div>used</div>
                     </div>
                 </div>

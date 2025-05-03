@@ -58,3 +58,12 @@ export const fileTypes = [
 ]
 
 export const fallbackIcon = FileType2;
+
+export type FileMetaDeta = {
+    fileId: string;
+    fileSize: number;
+    name: string,
+    creation: string,
+    expiration: string,
+    fileExtension: string,
+}
