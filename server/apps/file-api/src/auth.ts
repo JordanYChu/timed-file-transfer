@@ -6,7 +6,7 @@ export const authenticate = async (
   res: Response,
   next: NextFunction
 ): Promise<void> => {
-  console.log('awaaaa')
+  console.log('awaaaa   '+ req)
   const authHeader = req.headers.authorization;
   console.log('Authorization header:', authHeader);
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
