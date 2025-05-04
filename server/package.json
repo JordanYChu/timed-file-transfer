@@ -4,5 +4,8 @@
     "apps/*",
     "packages/*",
     "libs/*"
-  ]
+  ],
+  "dependencies": {
+    "yarn": "^1.22.22"
+  }
 }

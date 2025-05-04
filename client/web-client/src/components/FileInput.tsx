@@ -3,22 +3,31 @@ import "../assets/inputSection.css";
 import { uploadFile } from "../services/fileApi";
 import { useContext } from "react";
 import { AuthContext } from "./AuthProvider";
-
-const FileInput = () => {
+import { FileNotification } from "./Notifications";
+import { FileSystemContext } from "../FileSystemProvider";
+const FileInput = ({ changeUploadStatus }: { changeUploadStatus: (id: string, notificaiton: FileNotification) => void }) => {
     const userId = useContext(AuthContext).user?.uid
     const token = useContext(AuthContext).user?.token;
+    const getFiles = useContext(FileSystemContext).getFiles;
 
-    const handleFileChange = (e: any) => {
+    const handleFileChange = async (e: any) => {
         const file = e.target.files?.[0];
         if (!file || !userId || !token) return;
 
-        try {
-            const result = uploadFile(file, userId, token);
-            console.log(result);
-
-        } catch (error) {
-            console.error(error);
+        const id = file.name + Math.floor(Math.random() * 123);
+        const notification: FileNotification = { fileName: file.name, message: "uploading...", fileStatus: 0 }
+        changeUploadStatus(id, notification);
+        const result = await uploadFile(file, userId, token);
+        // Successful upload
+        if (result && result >= 200 && result < 300) {
+            const newNotification: FileNotification = { fileName: file.name, message: "Finished...", fileStatus: 2 }
+            changeUploadStatus(id, newNotification);
+            getFiles();
+        } else {
+            const newNotification: FileNotification = { fileName: file.name, message: "Error Uploading...", fileStatus: 1 }
+            changeUploadStatus(id, newNotification);
         }
+
     }
     return (
         <div className="file-input float">

@@ -4,36 +4,47 @@ export const uploadFile = async (file: File, userId: string, token: string) => {
     formData.append('file', file);
     formData.append('userId', userId)
 
-    const response = await fetch('http://localhost:3000/upload', {
-        // mode: 'no-cors',
-        method: "POST",
-        body: formData,
-        headers: {
-            'Authorization': `Bearer ${token}`
-        }
-    });
 
-    if (!response.ok) {
-        console.error("Post file");
+    try {
+        const response = await fetch('http://localhost:3000/upload', {
+
+            method: "POST",
+            body: formData,
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        if (!response.ok) console.error("Post file");
+        const data = await response.status;
+        return data;
+    } catch (error) {
+        console.error('Error uploading: ', error);
     }
 
-    return await response.json();
 }
 
 
-export const getUserFiles = async (token: string) => {
-    const response = await fetch('http://localhost:3000/user-files', {
-        method: "GET",
-        headers: {
-            'Authorization': `Bearer ${token}`
-        }
-    });
 
-    if (!response.ok) {
-        console.error("Failed to fetch user files");
-        throw new Error("Failed to fetch user files");
+export const getUserFiles = async (token: string) => {
+    try {
+        console.log("Attempting to retrieved files...")
+        const response = await fetch('http://localhost:3000/user-files', {
+            method: "GET",
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error("Failed to fetch user files");
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error(error);
+        return null;
     }
-    return await response.json();
 };
 
 export const createAccount = async (id: string, name: string | null, email: string | null, token: string) => {
