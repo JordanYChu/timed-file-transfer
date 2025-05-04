@@ -7,6 +7,7 @@ import "../assets/infoCard.css"
 import { FileSystemContext } from "../FileSystemProvider";
 import "../assets/loader.css"
 import { getUserFileLink } from "../services/fileApi";
+import React from "react";
 
 
 const formatDate = (iso: string) => new Date(iso).toLocaleDateString();
@@ -49,76 +50,102 @@ const InfoCard = ({ file }: { file: FileMetaData }) => {
         </div>
     );
 }
+const FileCard = React.memo(({ file, index, setSelectedFile }: { file: FileMetaData, index: number, setSelectedFile: React.Dispatch<React.SetStateAction<number | null>> }) => {
+    const token = useContext(AuthContext).user?.token;
+    if (!token) return;
+    const [url, setUrl] = useState<null | string>(null);
+    const [showPreview, setShowPreview] = useState(false);
+    if (url == null) {
+        getUserFileLink(file.fileId, token).then(
+            (result) => {
+                setUrl(result.url);
+                if (fileTypeMapping[file.fileExtension]?.category === "Image") {
+                    setShowPreview(true)
+                }
+            }
+        );
+    }
+    const FileIcon = fileTypeMapping[file.fileExtension]?.icon || fallbackIcon;
+    return (
+        <div className={`file-card`}>
+            <div className="file-header">
+                <div className="fixed">
+                    <FileIcon />
+                </div>
+                <div className="file-type">
+                    <p>{file.name}</p>
+                </ div>
+                <div className="fixed">
+                    <Settings2 onClick={() => setSelectedFile(index)} />
+                </div>
+            </div>
+            {!showPreview &&
+                <div className="file-preview">
+                    <FileIcon className="file-icon" style={{ height: "100%", width: "100%" }} />
+                </div>
+            }
+            {
+                showPreview &&
+                <img className="file-preview" src={`${url}`} alt="image" referrerPolicy="no-referrer" />
+            }
+            <div className="file-footer">
+                <span className="file-type">{file.expiration}</span>
+            </div>
+        </div >
+    )
+}, (prevProps: { file: FileMetaData, index: number }, nextProps: { file: FileMetaData, index: number }) => {
+    return nextProps.file.fileId === prevProps.file.fileId;
+})
 
 const FileViewer = () => {
     const files = useContext(FileSystemContext).systemInfo.files;
-    const token = useContext(AuthContext).user?.token;
-    if (!token) return;
     const { isLoading, error } = useContext(FileSystemContext).systemStatus;
-    console.log(files)
     const [fileType, setFileType] = useState("All");
     const [search, setSearch] = useState("");
     const [showGrid, setShowGrid] = useState(true);
     const [selectedFile, setSelectedFile] = useState<number | null>(null);
 
-    const FileCard = ({ file, index }: { file: FileMetaData, index: number }) => {
-        const [url, setUrl] = useState<null | string>(null);
-        getUserFileLink(file.fileId, token).then(
-            (result) => {
-                if (fileTypeMapping[file.fileExtension].category !== "Image") {
-                    return
-                }
-                setUrl(result.url);
-            }
-        );
-        const FileIcon = fileTypeMapping[file.fileExtension]?.icon || fallbackIcon;
-        return (
-            <div className="file-card">
-                <div className="file-header">
-                    <div className="fixed">
-                        <FileIcon />
-                    </div>
-                    <div className="file-type">
-                        <p>{file.name}</p>
-                    </ div>
-                    <div className="fixed">
-                        <Settings2 onClick={() => setSelectedFile(index)} />
-                    </div>
-                </div>
-                {url == null &&
-                    <div className="file-preview">
-                        <FileIcon className="file-icon" style={{ height: "100%", width: "100%" }} />
-                    </div>
-                }
-                {url !== null &&
-                    <img className="file-preview" src={`${url}`} alt="image" referrerPolicy="no-referrer" />
-                }
-                <div className="file-footer">
-                    <span className="file-type">{file.expiration}</span>
-                </div>
-            </div>
-        )
-    }
-
     const filterFiles = (files: FileMetaData[]) => {
 
-        if (fileType === "All") return files.filter(file => file.name.includes(search))
+        if (fileType === "All") return files.map(file => file.name.includes(search))
 
-        const filteredTypes = files.filter(file => {
+        const filteredTypes = files.map(file => {
             const mappedFile = fileTypeMapping[file.fileExtension];
             if (mappedFile) return mappedFile.category == fileType;
             return false;
         });
-        if (!search || search === "") {
-            return filteredTypes;
-        }
-        return filteredTypes.filter(file => file.name.includes(search))
 
+        const filteredSearch = files.map(file => {
+            return file.name.includes(search);
+        })
+
+        const filtered = [];
+        for (let i = 0; i < filteredTypes.length; i++) {
+            filtered.push(filteredTypes[i] && filteredSearch[i]);
+        }
+        return filtered;
     }
+
+    const shownFiles = useMemo(() => { return filterFiles(files) }, [search, fileType, isLoading])
 
     const handleFileTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setFileType(e.target.value);
     }
+    const fileCards = useMemo(() => {
+        if (showGrid && !isLoading && !error) {
+            return (
+                <div className="file-cards">
+                    {files.map((file, i) => (
+                        <div key={i} className={`${shownFiles[i] ? "shown" : "not-shown"}`}>
+                            <FileCard file={file} index={i} setSelectedFile={setSelectedFile} />
+                        </div>
+                    ))
+                    }
+                </div >
+            );
+        }
+        return null;
+    }, [files, showGrid, isLoading, error, search, fileType])
 
     return (
         <>
@@ -148,11 +175,7 @@ const FileViewer = () => {
                         <div className="loader-message">{error}</div>
                     </div>
                 }
-                {showGrid && !isLoading && !error && <div className="file-cards">
-                    {filterFiles(files).map((file, i) => {
-                        return <FileCard key={i} file={file} index={i}></FileCard>
-                    })}
-                </div>}
+                {fileCards}
                 {/* {!showGrid && <table> */}
                 {/* <tbody>
                         <tr>

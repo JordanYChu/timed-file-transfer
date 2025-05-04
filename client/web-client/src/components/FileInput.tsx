@@ -15,10 +15,6 @@ const FileInput = ({ changeUploadStatus }: { changeUploadStatus: (id: string, no
         const file = e.target.files?.[0];
         if (!file || !userId || !token) return;
 
-        // const result = await getUserFileLink("904523fc-74e4-438e-9a7c-d1a2f30748fb", token);
-        // console.log(result.url);
-        // setUrl(result.url);
-
         const id = file.name + Math.floor(Math.random() * 123);
         const notification: FileNotification = { fileName: file.name, message: "uploading...", fileStatus: 0 }
         changeUploadStatus(id, notification);

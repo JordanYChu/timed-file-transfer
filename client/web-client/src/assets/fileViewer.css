@@ -78,7 +78,9 @@ select:focus {
     margin: auto;
     overflow: hidden;
 }
-
+.not-shown {
+    display:none;
+}
 .file-icon {
     box-sizing: border-box;
     padding: 1rem;
