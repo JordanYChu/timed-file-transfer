@@ -7,7 +7,6 @@
     left: 50%;
     transform: translate(-50%, -50%);
     width: 25rem;
-    height: 30rem;
     background: var(--bg-secondary);
     border: solid 2px var(--border);
     border-radius: 1rem;
@@ -50,4 +49,20 @@
   font-size: 0.9rem;
   color: #ccc;
   text-align: center;
+  height: 10rem;
+}
+
+.download-button {
+    box-sizing: border-box;
+    all: unset;
+    background: var(--primary);
+    width: 100%;
+    padding: 1rem 0;
+}
+.download-button:hover {
+    cursor: pointer;
+}
+
+.preview-content > img {
+    height: 100%;
 }

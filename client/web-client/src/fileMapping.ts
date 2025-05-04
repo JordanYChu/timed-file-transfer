@@ -66,4 +66,5 @@ export type FileMetaData = {
     creation: string,
     expiration: string,
     fileExtension: string,
+    image?: string;
 }

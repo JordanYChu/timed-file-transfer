@@ -13,7 +13,11 @@ import React from "react";
 const formatDate = (iso: string) => new Date(iso).toLocaleDateString();
 const formatSize = (bytes: number) => `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
 
-const InfoCard = ({ file }: { file: FileMetaData }) => {
+const downloadFile = (url: string) => {
+
+}
+
+const InfoCard = ({ file, preview }: { file: FileMetaData, preview: string | null }) => {
 
     return (
         <div className="info-card">
@@ -45,16 +49,38 @@ const InfoCard = ({ file }: { file: FileMetaData }) => {
                 </div>
             </div>
             <div className="preview-section">
-                <div className="preview-content">[ Add live preview here ]</div>
+                <div className="preview-content">
+                    <img src={`${preview}`} alt="" />
+                </div>
+            </div>
+            <div>
+                <button
+                    className="download-button"
+                    onClick={async () => {
+                        if (!preview) return;
+                        const response = await fetch(preview);
+                        const blob = await response.blob();
+                        const url = URL.createObjectURL(blob);
+
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = file.name;
+                        a.click();
+                        URL.revokeObjectURL(url);
+                    }}
+                >
+                    Download
+                </button>
             </div>
         </div>
     );
 }
-const FileCard = React.memo(({ file, index, setSelectedFile }: { file: FileMetaData, index: number, setSelectedFile: React.Dispatch<React.SetStateAction<number | null>> }) => {
+const FileCard = React.memo(({ file, index }: { file: FileMetaData, index: number }) => {
     const token = useContext(AuthContext).user?.token;
     if (!token) return;
     const [url, setUrl] = useState<null | string>(null);
     const [showPreview, setShowPreview] = useState(false);
+    const [selected, setSelected] = useState(false);
     if (url == null) {
         getUserFileLink(file.fileId, token).then(
             (result) => {
@@ -76,21 +102,27 @@ const FileCard = React.memo(({ file, index, setSelectedFile }: { file: FileMetaD
                     <p>{file.name}</p>
                 </ div>
                 <div className="fixed">
-                    <Settings2 onClick={() => setSelectedFile(index)} />
+                    <Settings2 onClick={() => setSelected(true)} />
                 </div>
             </div>
             {!showPreview &&
-                <div className="file-preview">
+                <div className="file-preview ">
                     <FileIcon className="file-icon" style={{ height: "100%", width: "100%" }} />
                 </div>
             }
             {
                 showPreview &&
-                <img className="file-preview" src={`${url}`} alt="image" referrerPolicy="no-referrer" />
+                <img className="file-preview file-preview-image" src={`${url}`} alt="image" referrerPolicy="no-referrer" />
             }
             <div className="file-footer">
                 <span className="file-type">{file.expiration}</span>
             </div>
+            {selected &&
+                <>
+                    <div className="unfocus-screen" onClick={() => setSelected(false)}></div>
+                    <InfoCard file={file} preview={url} />
+                </>
+            }
         </div >
     )
 }, (prevProps: { file: FileMetaData, index: number }, nextProps: { file: FileMetaData, index: number }) => {
@@ -103,7 +135,6 @@ const FileViewer = () => {
     const [fileType, setFileType] = useState("All");
     const [search, setSearch] = useState("");
     const [showGrid, setShowGrid] = useState(true);
-    const [selectedFile, setSelectedFile] = useState<number | null>(null);
 
     const filterFiles = (files: FileMetaData[]) => {
 
@@ -137,7 +168,7 @@ const FileViewer = () => {
                 <div className="file-cards">
                     {files.map((file, i) => (
                         <div key={i} className={`${shownFiles[i] ? "shown" : "not-shown"}`}>
-                            <FileCard file={file} index={i} setSelectedFile={setSelectedFile} />
+                            <FileCard file={file} index={i} />
                         </div>
                     ))
                     }
@@ -195,12 +226,7 @@ const FileViewer = () => {
                     </tbody> */}
                 {/* </table>} */}
             </div>
-            {selectedFile !== null &&
-                <>
-                    <div className="unfocus-screen" onClick={() => setSelectedFile(null)}></div>
-                    <InfoCard file={files[selectedFile]} />
-                </>
-            }
+
         </>
     )
 }
