@@ -1,0 +1,16 @@
+{
+  "name": "deletion-worker",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.802.0",
+    "@prisma/client": "^6.7.0",
+    "bull": "^4.16.5"
+  },
+  "devDependencies": {
+    "node-cron": "^3.0.3",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  }
+}

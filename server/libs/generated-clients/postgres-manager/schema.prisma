@@ -41,5 +41,6 @@ enum FileStatus {
   ACCEPTED
   DOWNLOADED
   EXPIRED
+  DELETING
   DELETED
 }

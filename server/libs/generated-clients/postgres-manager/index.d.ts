@@ -33,6 +33,7 @@ export namespace $Enums {
   ACCEPTED: 'ACCEPTED',
   DOWNLOADED: 'DOWNLOADED',
   EXPIRED: 'EXPIRED',
+  DELETING: 'DELETING',
   DELETED: 'DELETED'
 };
 
