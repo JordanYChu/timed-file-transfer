@@ -18,7 +18,7 @@ datasource db {
 model File {
   id         String     @id @default(uuid()) @db.Uuid
   filename   String
-  s3Key      String     @unique // Relative path or S3 key
+  s3Key      String?    @unique // Relative path or S3 key
   fileSize   BigInt // In bytes
   status     FileStatus @default(PENDING)
   createdAt  DateTime   @default(now())
