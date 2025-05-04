@@ -1,7 +1,7 @@
 import { Upload } from "lucide-react";
 import "../assets/inputSection.css";
-import { uploadFile } from "../services/fileApi";
-import { useContext } from "react";
+import { getUserFileLink, uploadFile } from "../services/fileApi";
+import { useContext, useState } from "react";
 import { AuthContext } from "./AuthProvider";
 import { FileNotification } from "./Notifications";
 import { FileSystemContext } from "../FileSystemProvider";
@@ -9,10 +9,15 @@ const FileInput = ({ changeUploadStatus }: { changeUploadStatus: (id: string, no
     const userId = useContext(AuthContext).user?.uid
     const token = useContext(AuthContext).user?.token;
     const getFiles = useContext(FileSystemContext).getFiles;
+    const [url, setUrl] = useState("");
 
     const handleFileChange = async (e: any) => {
         const file = e.target.files?.[0];
         if (!file || !userId || !token) return;
+
+        // const result = await getUserFileLink("904523fc-74e4-438e-9a7c-d1a2f30748fb", token);
+        // console.log(result.url);
+        // setUrl(result.url);
 
         const id = file.name + Math.floor(Math.random() * 123);
         const notification: FileNotification = { fileName: file.name, message: "uploading...", fileStatus: 0 }
@@ -34,6 +39,7 @@ const FileInput = ({ changeUploadStatus }: { changeUploadStatus: (id: string, no
             <Upload size={48} />
             <h2 style={{ margin: "0.5rem", fontSize: "medium" }}> Drag and Drop Here</h2>
             <input type="file" onChange={handleFileChange} />
+            {/* <img style={{ height: "100px", width: "100px", background: "green" }} src={`${url}`} alt="" /> */}
         </div >
     )
 }
