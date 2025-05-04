@@ -13,8 +13,22 @@ import React from "react";
 const formatDate = (iso: string) => new Date(iso).toLocaleDateString();
 const formatSize = (bytes: number) => `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
 
-const downloadFile = (url: string) => {
+const getRemainingTime = (date: string) => {
+    const time1 = new Date(date);
+    const time2 = new Date(); // Example earlier time
+    if (!time1 || !time2) return 0;
 
+    const diffMs = Math.abs(time1 - time2); // Difference in milliseconds
+
+    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+    const diffHours = Math.floor((diffMs / (1000 * 60 * 60)) % 24);
+    const diffMinutes = Math.floor((diffMs / (1000 * 60)) % 60);
+    const diffSeconds = Math.floor((diffMs / 1000) % 60);
+
+    if (diffDays !== 0) return `${diffDays} day(s)`
+    if (diffHours !== 0) return `${diffHours} hour(s)`
+    if (diffMinutes !== 0) return `${diffMinutes} minute(s)`
+    if (diffSeconds !== 0) return `${diffSeconds} second(s)`
 }
 
 const InfoCard = ({ file, preview }: { file: FileMetaData, preview: string | null }) => {
@@ -95,15 +109,9 @@ const FileCard = React.memo(({ file, index }: { file: FileMetaData, index: numbe
     return (
         <div className={`file-card`}>
             <div className="file-header">
-                <div className="fixed">
-                    <FileIcon />
-                </div>
-                <div className="file-type">
-                    <p>{file.name}</p>
-                </ div>
-                <div className="fixed">
-                    <Settings2 onClick={() => setSelected(true)} />
-                </div>
+                <div className="fixed"> <FileIcon /> </div>
+                <div className="file-type"> <p>{file.name}</p> </ div>
+                <div className="fixed"> <Settings2 onClick={() => setSelected(true)} /> </div>
             </div>
             {!showPreview &&
                 <div className="file-preview ">
@@ -115,7 +123,7 @@ const FileCard = React.memo(({ file, index }: { file: FileMetaData, index: numbe
                 <img className="file-preview file-preview-image" src={`${url}`} alt="image" referrerPolicy="no-referrer" />
             }
             <div className="file-footer">
-                <span className="file-type">{file.expiration}</span>
+                <span className="file-type">{getRemainingTime(file.expiration)}</span>
             </div>
             {selected &&
                 <>
