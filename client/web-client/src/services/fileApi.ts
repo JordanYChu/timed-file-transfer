@@ -4,8 +4,10 @@ export const uploadFile = async (file: File, userId: string, token: string) => {
     formData.append('file', file);
     formData.append('userId', userId)
 
+
     try {
         const response = await fetch('http://localhost:3000/upload', {
+
             method: "POST",
             body: formData,
             headers: {
@@ -21,6 +23,29 @@ export const uploadFile = async (file: File, userId: string, token: string) => {
     }
 
 }
+
+
+
+export const getUserFiles = async (token: string) => {
+    try {
+        console.log("Attempting to retrieved files...")
+        const response = await fetch('http://localhost:3000/user-files', {
+            method: "GET",
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error("Failed to fetch user files");
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+};
 
 export const createAccount = async (id: string, name: string | null, email: string | null, token: string) => {
     const formData = new FormData();

@@ -59,7 +59,7 @@ export const fileTypes = [
 
 export const fallbackIcon = FileType2;
 
-export type FileMetaDeta = {
+export type FileMetaData = {
     fileId: string;
     fileSize: number;
     name: string,

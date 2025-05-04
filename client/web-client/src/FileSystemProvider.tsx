@@ -1,9 +1,39 @@
-import { createContext } from "react";
-import { FileMetaDeta } from "./fileMapping";
+import { createContext, useContext, useEffect, useState } from "react";
+import { FileMetaData } from "./fileMapping";
+import { AuthContext } from "./components/AuthProvider";
+import { getUserFiles } from "./services/fileApi";
+import { renderToReadableStream } from "react-dom/server";
 
-export const FileSystemContext = createContext<FileMetaDeta[]>([]);
+type FileSystemInfo = {
+    files: FileMetaData[],
+    storage: number,
+    usedStorage: number
+}
 
-const filesMetaData: FileMetaDeta[] = [
+type FileSystemStatus = {
+    isLoading: boolean,
+    error: string | null
+}
+type FileSystemHandler = {
+    systemInfo: FileSystemInfo,
+    systemStatus: FileSystemStatus
+    getFiles: () => void;
+}
+
+export const FileSystemContext = createContext<FileSystemHandler>({
+    systemInfo: {
+        files: [],
+        storage: 0,
+        usedStorage: 0
+    },
+    systemStatus: {
+        isLoading: true,
+        error: null
+    },
+    getFiles: () => { }
+});
+
+const filesMeataData: FileMetaData[] = [
     {
         fileId: "12345abcde",
         fileSize: 1048576, // 1 MB in bytes
@@ -174,13 +204,85 @@ const filesMetaData: FileMetaDeta[] = [
     }
 ];
 
+type jsonFileData = {
+    createdAt: string;
+    expiresAt: string;
+    fileSize: string;
+    id: string;
+    filename: string;
+    recieverId: string;
+    status: string;
+};
+
 const FileSystemProvider = ({ children }: any) => {
+    const [systemInfo, setSystemInfo] = useState<FileSystemInfo>({ files: [], storage: 0, usedStorage: 0 });
+    const [systemStatus, setSystemStatus] = useState<FileSystemStatus>({ error: null, isLoading: true });
+    const token = useContext(AuthContext).user?.token;
+
+    const getData = async () => {
+        if (!token) return;
+        setSystemStatus({ error: null, isLoading: true });
+        const result = await getUserFiles(token) as { [key: number]: jsonFileData };
+        if (!result) {
+            return
+        }
+        const retrievedFiles = Object.values(result).map(file => {
+            return {
+                fileId: file.id,
+                fileSize: Number(file.fileSize),
+                creation: file.createdAt,
+                expiration: file.expiresAt,
+                name: file.filename,
+                fileExtension: getFileExtension(file.filename)
+            } as FileMetaData
+        })
+        const usedStorage = Object.values(retrievedFiles).reduce((sum, file) => sum + file.fileSize, 0);
+        setSystemInfo({
+            files: retrievedFiles,
+            storage: 100,
+            usedStorage: usedStorage
+        });
+        setSystemStatus({
+            isLoading: false,
+            error: null
+        })
+    }
+
+    useEffect(() => {
+        getData()
+        // setTimeout(() => {
+        //     setSystemInfo({
+        //         files: filesMeataData,
+        //         storage: 100,
+        //         usedStorage: 10
+        //     });
+        //     setSystemStatus({
+        //         isLoading: false,
+        //         error: null
+        //     })
+        // }, 2500)
+    }, [])
+
+    const values = {
+        systemInfo: systemInfo,
+        systemStatus: systemStatus,
+        getFiles: getData
+    }
 
     return (
-        <FileSystemContext.Provider value={filesMetaData}>
+        <FileSystemContext.Provider value={values}>
             {children}
         </FileSystemContext.Provider>
     )
+}
+
+const getFileExtension = (filename: string) => {
+    const cleanName = filename.split(/[?#]/)[0];
+    const lastDotIndex = cleanName.lastIndexOf(".");
+
+    if (lastDotIndex === -1 || lastDotIndex === 0) return "";
+
+    return cleanName.slice(lastDotIndex, cleanName.length);
 }
 
 export default FileSystemProvider;

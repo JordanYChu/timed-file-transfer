@@ -11,6 +11,7 @@ import { auth } from "./firebase"
 import { onAuthStateChanged } from 'firebase/auth'
 import FileSystemProvider from './FileSystemProvider'
 import { FileNotification } from './components/Notifications'
+import { getUserFiles } from './services/fileApi'
 const Dashboard = () => {
 
     const [loading, setLoading] = useState(true);
@@ -25,11 +26,11 @@ const Dashboard = () => {
     }
 
     useEffect(() => {
-        onAuthStateChanged(auth, (user) => {
+        onAuthStateChanged(auth, async (user) => {
             if (user) login(user);
             setLoading(false);
         })
-    }, [])
+    }, [auth])
 
     if (loading) return <div>Loading...</div>
 

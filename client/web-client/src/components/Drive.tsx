@@ -4,14 +4,13 @@ import { fileTypes } from "../fileMapping";
 import { FileSystemContext } from "../FileSystemProvider";
 
 const Drive = () => {
-    const files = useContext(FileSystemContext);
-    const usedSpace = Object.values(files).reduce((sum, file) => sum + file.fileSize, 0);
+    const { usedStorage, storage } = useContext(FileSystemContext).systemInfo;
     return (
         <div className="drive-container">
             <div className="drive float">
                 <div className="drive-wheel">
                     <div className="drive-space">
-                        <div className="space">{usedSpace} b</div>
+                        <div className="space">{usedStorage} b</div>
                         <div>used</div>
                     </div>
                 </div>
