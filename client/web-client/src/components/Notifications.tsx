@@ -15,8 +15,12 @@ const Notifications = ({ notifications }: { notifications: { [key: string]: File
                 return (
                     <div key={i} className={`notification ${getClassStatus(notification.fileStatus)}`}>
                         <div className="file-header">
-                            <div className="file">{notification.fileName}</div>
-                            <CircleX size={20} />
+                            <div className="file-type">
+                                <p className="file">{notification.fileName}</p>
+                            </div>
+                            <div className="fixed">
+                                <CircleX size={20} />
+                            </div>
                         </div>
                         <div className="file-header file-status">{notification.message}</div>
                     </div>

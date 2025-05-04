@@ -49,7 +49,6 @@ export const getUserFiles = async (token: string) => {
 
 export const getUserFileLink = async (fileId: string, token: string) => {
     try {
-        console.log("Attempting to retrieve file link...")
         const response = await fetch(`http://localhost:3000/file-link?fileId=${fileId}`, {
             method: "GET",
             headers: {
@@ -63,7 +62,7 @@ export const getUserFileLink = async (fileId: string, token: string) => {
 
         return await response.json();
     } catch (error) {
-        console.error(error);
+        // console.error(error);
         return null;
     }
 };

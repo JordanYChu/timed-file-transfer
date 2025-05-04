@@ -89,7 +89,7 @@ const InfoCard = ({ file, preview }: { file: FileMetaData, preview: string | nul
         </div>
     );
 }
-const FileCard = React.memo(({ file, index }: { file: FileMetaData, index: number }) => {
+const FileCard = React.memo(({ file }: { file: FileMetaData }) => {
     const token = useContext(AuthContext).user?.token;
     if (!token) return;
     const [url, setUrl] = useState<null | string>(null);
@@ -98,6 +98,7 @@ const FileCard = React.memo(({ file, index }: { file: FileMetaData, index: numbe
     if (url == null) {
         getUserFileLink(file.fileId, token).then(
             (result) => {
+                if (!result) return;
                 setUrl(result.url);
                 if (fileTypeMapping[file.fileExtension]?.category === "Image") {
                     setShowPreview(true)
@@ -133,7 +134,8 @@ const FileCard = React.memo(({ file, index }: { file: FileMetaData, index: numbe
             }
         </div >
     )
-}, (prevProps: { file: FileMetaData, index: number }, nextProps: { file: FileMetaData, index: number }) => {
+}, (prevProps, nextProps) => {
+    console.log(nextProps.file.fileId === prevProps.file.fileId);
     return nextProps.file.fileId === prevProps.file.fileId;
 })
 
@@ -146,23 +148,18 @@ const FileViewer = () => {
 
     const filterFiles = (files: FileMetaData[]) => {
 
-        if (fileType === "All") return files.map(file => file.name.includes(search))
+        const result: Record<string, boolean> = {};
 
-        const filteredTypes = files.map(file => {
-            const mappedFile = fileTypeMapping[file.fileExtension];
-            if (mappedFile) return mappedFile.category == fileType;
-            return false;
-        });
+        for (const file of files) {
+            const matchesSearch = file.name.includes(search);
+            const matchesType = fileType === "All" || (
+                fileTypeMapping[file.fileExtension]?.category === fileType
+            );
 
-        const filteredSearch = files.map(file => {
-            return file.name.includes(search);
-        })
-
-        const filtered = [];
-        for (let i = 0; i < filteredTypes.length; i++) {
-            filtered.push(filteredTypes[i] && filteredSearch[i]);
+            result[file.fileId] = matchesSearch && matchesType;
         }
-        return filtered;
+
+        return result;
     }
 
     const shownFiles = useMemo(() => { return filterFiles(files) }, [search, fileType, isLoading])
@@ -171,12 +168,13 @@ const FileViewer = () => {
         setFileType(e.target.value);
     }
     const fileCards = useMemo(() => {
+        console.log(files, showGrid, isLoading, error, search, fileType);
         if (showGrid && !isLoading && !error) {
             return (
                 <div className="file-cards">
                     {files.map((file, i) => (
-                        <div key={i} className={`${shownFiles[i] ? "shown" : "not-shown"}`}>
-                            <FileCard file={file} index={i} />
+                        <div key={file.fileId} className={`${shownFiles[file.fileId] ? "shown" : "not-shown"}`}>
+                            <FileCard key={file.fileId} file={file} />
                         </div>
                     ))
                     }
