@@ -6,6 +6,7 @@ import { fallbackIcon, fileTypeMapping, fileTypes, FileMetaData } from "../fileM
 import "../assets/infoCard.css"
 import { FileSystemContext } from "../FileSystemProvider";
 import "../assets/loader.css"
+import { getUserFileLink } from "../services/fileApi";
 
 
 const formatDate = (iso: string) => new Date(iso).toLocaleDateString();
@@ -51,6 +52,8 @@ const InfoCard = ({ file }: { file: FileMetaData }) => {
 
 const FileViewer = () => {
     const files = useContext(FileSystemContext).systemInfo.files;
+    const token = useContext(AuthContext).user?.token;
+    if (!token) return;
     const { isLoading, error } = useContext(FileSystemContext).systemStatus;
     console.log(files)
     const [fileType, setFileType] = useState("All");
@@ -59,6 +62,15 @@ const FileViewer = () => {
     const [selectedFile, setSelectedFile] = useState<number | null>(null);
 
     const FileCard = ({ file, index }: { file: FileMetaData, index: number }) => {
+        const [url, setUrl] = useState<null | string>(null);
+        getUserFileLink(file.fileId, token).then(
+            (result) => {
+                if (fileTypeMapping[file.fileExtension].category !== "Image") {
+                    return
+                }
+                setUrl(result.url);
+            }
+        );
         const FileIcon = fileTypeMapping[file.fileExtension]?.icon || fallbackIcon;
         return (
             <div className="file-card">
@@ -73,10 +85,14 @@ const FileViewer = () => {
                         <Settings2 onClick={() => setSelectedFile(index)} />
                     </div>
                 </div>
-                <div className="file-preview">
-                    <FileIcon className="file-icon" style={{ height: "100%", width: "100%" }} />
-                </div>
-                {/* <img className="file-preview" src={`${image}`} alt="image" referrerPolicy="no-referrer" /> */}
+                {url == null &&
+                    <div className="file-preview">
+                        <FileIcon className="file-icon" style={{ height: "100%", width: "100%" }} />
+                    </div>
+                }
+                {url !== null &&
+                    <img className="file-preview" src={`${url}`} alt="image" referrerPolicy="no-referrer" />
+                }
                 <div className="file-footer">
                     <span className="file-type">{file.expiration}</span>
                 </div>

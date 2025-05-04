@@ -75,6 +75,7 @@ select:focus {
     object-fit: cover;
     height: 100%;
     width: auto;
+    margin: auto;
     overflow: hidden;
 }
 
