@@ -10,7 +10,7 @@ deleteQueue.process('delete-file', async (job) => {
       Bucket: process.env.S3_BUCKET_NAME!,
       Key: s3Key,
     }));
-    console.log(response.$metadata, " asdasd ", response.DeleteMarker, " awaaa ", response.RequestCharged)
+    // console.log(response.$metadata, " asdasd ", response.DeleteMarker, " awaaa ", response.RequestCharged)
     await prisma.file.update({
       where: { id: fileId },
       data: { status: 'DELETED', s3Key: null },
