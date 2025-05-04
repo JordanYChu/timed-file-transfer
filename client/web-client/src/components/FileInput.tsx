@@ -23,7 +23,7 @@ const FileInput = ({ changeUploadStatus }: { changeUploadStatus: (id: string, no
             const newNotification: FileNotification = { fileName: file.name, message: "Finished...", fileStatus: 2 }
             changeUploadStatus(id, newNotification);
             getFiles();
-        } else {
+        } else { // unsucsessful upload
             const newNotification: FileNotification = { fileName: file.name, message: "Error Uploading...", fileStatus: 1 }
             changeUploadStatus(id, newNotification);
         }
