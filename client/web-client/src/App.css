@@ -42,7 +42,7 @@
     flex: 1;
     flex-shrink: 1;
     display: grid;
-    grid-template-columns: 1fr 3fr 1fr;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 3fr) minmax(0, 1fr);
     overflow: hidden;
     min-height: 0;
 }
