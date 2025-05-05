@@ -33,6 +33,7 @@ export namespace $Enums {
   ACCEPTED: 'ACCEPTED',
   DOWNLOADED: 'DOWNLOADED',
   EXPIRED: 'EXPIRED',
+  DELETING: 'DELETING',
   DELETED: 'DELETED'
 };
 
@@ -1211,7 +1212,7 @@ export namespace Prisma {
   export type FileGroupByOutputType = {
     id: string
     filename: string
-    s3Key: string
+    s3Key: string | null
     fileSize: bigint
     status: $Enums.FileStatus
     createdAt: Date
@@ -1316,7 +1317,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       filename: string
-      s3Key: string
+      s3Key: string | null
       fileSize: bigint
       status: $Enums.FileStatus
       createdAt: Date
@@ -3408,7 +3409,7 @@ export namespace Prisma {
     NOT?: FileWhereInput | FileWhereInput[]
     id?: UuidFilter<"File"> | string
     filename?: StringFilter<"File"> | string
-    s3Key?: StringFilter<"File"> | string
+    s3Key?: StringNullableFilter<"File"> | string | null
     fileSize?: BigIntFilter<"File"> | bigint | number
     status?: EnumFileStatusFilter<"File"> | $Enums.FileStatus
     createdAt?: DateTimeFilter<"File"> | Date | string
@@ -3422,7 +3423,7 @@ export namespace Prisma {
   export type FileOrderByWithRelationInput = {
     id?: SortOrder
     filename?: SortOrder
-    s3Key?: SortOrder
+    s3Key?: SortOrderInput | SortOrder
     fileSize?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
@@ -3453,7 +3454,7 @@ export namespace Prisma {
   export type FileOrderByWithAggregationInput = {
     id?: SortOrder
     filename?: SortOrder
-    s3Key?: SortOrder
+    s3Key?: SortOrderInput | SortOrder
     fileSize?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
@@ -3473,7 +3474,7 @@ export namespace Prisma {
     NOT?: FileScalarWhereWithAggregatesInput | FileScalarWhereWithAggregatesInput[]
     id?: UuidWithAggregatesFilter<"File"> | string
     filename?: StringWithAggregatesFilter<"File"> | string
-    s3Key?: StringWithAggregatesFilter<"File"> | string
+    s3Key?: StringNullableWithAggregatesFilter<"File"> | string | null
     fileSize?: BigIntWithAggregatesFilter<"File"> | bigint | number
     status?: EnumFileStatusWithAggregatesFilter<"File"> | $Enums.FileStatus
     createdAt?: DateTimeWithAggregatesFilter<"File"> | Date | string
@@ -3528,7 +3529,7 @@ export namespace Prisma {
   export type FileCreateInput = {
     id?: string
     filename: string
-    s3Key: string
+    s3Key?: string | null
     fileSize: bigint | number
     status?: $Enums.FileStatus
     createdAt?: Date | string
@@ -3540,7 +3541,7 @@ export namespace Prisma {
   export type FileUncheckedCreateInput = {
     id?: string
     filename: string
-    s3Key: string
+    s3Key?: string | null
     fileSize: bigint | number
     status?: $Enums.FileStatus
     createdAt?: Date | string
@@ -3552,7 +3553,7 @@ export namespace Prisma {
   export type FileUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     filename?: StringFieldUpdateOperationsInput | string
-    s3Key?: StringFieldUpdateOperationsInput | string
+    s3Key?: NullableStringFieldUpdateOperationsInput | string | null
     fileSize?: BigIntFieldUpdateOperationsInput | bigint | number
     status?: EnumFileStatusFieldUpdateOperationsInput | $Enums.FileStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -3564,7 +3565,7 @@ export namespace Prisma {
   export type FileUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     filename?: StringFieldUpdateOperationsInput | string
-    s3Key?: StringFieldUpdateOperationsInput | string
+    s3Key?: NullableStringFieldUpdateOperationsInput | string | null
     fileSize?: BigIntFieldUpdateOperationsInput | bigint | number
     status?: EnumFileStatusFieldUpdateOperationsInput | $Enums.FileStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -3576,7 +3577,7 @@ export namespace Prisma {
   export type FileCreateManyInput = {
     id?: string
     filename: string
-    s3Key: string
+    s3Key?: string | null
     fileSize: bigint | number
     status?: $Enums.FileStatus
     createdAt?: Date | string
@@ -3588,7 +3589,7 @@ export namespace Prisma {
   export type FileUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     filename?: StringFieldUpdateOperationsInput | string
-    s3Key?: StringFieldUpdateOperationsInput | string
+    s3Key?: NullableStringFieldUpdateOperationsInput | string | null
     fileSize?: BigIntFieldUpdateOperationsInput | bigint | number
     status?: EnumFileStatusFieldUpdateOperationsInput | $Enums.FileStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -3598,7 +3599,7 @@ export namespace Prisma {
   export type FileUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     filename?: StringFieldUpdateOperationsInput | string
-    s3Key?: StringFieldUpdateOperationsInput | string
+    s3Key?: NullableStringFieldUpdateOperationsInput | string | null
     fileSize?: BigIntFieldUpdateOperationsInput | bigint | number
     status?: EnumFileStatusFieldUpdateOperationsInput | $Enums.FileStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -3677,6 +3678,21 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
+  export type StringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
   export type BigIntFilter<$PrismaModel = never> = {
     equals?: bigint | number | BigIntFieldRefInput<$PrismaModel>
     in?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
@@ -3704,21 +3720,6 @@ export namespace Prisma {
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
-  }
-
-  export type StringNullableFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    mode?: QueryMode
-    not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
   export type UserScalarRelationFilter = {
@@ -3813,6 +3814,24 @@ export namespace Prisma {
     _max?: NestedStringFilter<$PrismaModel>
   }
 
+  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
   export type BigIntWithAggregatesFilter<$PrismaModel = never> = {
     equals?: bigint | number | BigIntFieldRefInput<$PrismaModel>
     in?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
@@ -3851,24 +3870,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedDateTimeFilter<$PrismaModel>
     _max?: NestedDateTimeFilter<$PrismaModel>
-  }
-
-  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    mode?: QueryMode
-    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedStringNullableFilter<$PrismaModel>
-    _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
   export type FileListRelationFilter = {
@@ -3912,6 +3913,10 @@ export namespace Prisma {
     set?: string
   }
 
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null
+  }
+
   export type BigIntFieldUpdateOperationsInput = {
     set?: bigint | number
     increment?: bigint | number
@@ -3944,10 +3949,6 @@ export namespace Prisma {
     delete?: UserWhereInput | boolean
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutReceivedFilesInput, UserUpdateWithoutReceivedFilesInput>, UserUncheckedUpdateWithoutReceivedFilesInput>
-  }
-
-  export type NullableStringFieldUpdateOperationsInput = {
-    set?: string | null
   }
 
   export type FileCreateNestedManyWithoutSenderInput = {
@@ -4059,6 +4060,20 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
+  export type NestedStringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
   export type NestedBigIntFilter<$PrismaModel = never> = {
     equals?: bigint | number | BigIntFieldRefInput<$PrismaModel>
     in?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
@@ -4086,20 +4101,6 @@ export namespace Prisma {
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
-  }
-
-  export type NestedStringNullableFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
   export type NestedUuidWithAggregatesFilter<$PrismaModel = never> = {
@@ -4142,6 +4143,34 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedStringFilter<$PrismaModel>
     _max?: NestedStringFilter<$PrismaModel>
+  }
+
+  export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
   export type NestedBigIntWithAggregatesFilter<$PrismaModel = never> = {
@@ -4193,34 +4222,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedDateTimeFilter<$PrismaModel>
     _max?: NestedDateTimeFilter<$PrismaModel>
-  }
-
-  export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedStringNullableFilter<$PrismaModel>
-    _max?: NestedStringNullableFilter<$PrismaModel>
-  }
-
-  export type NestedIntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
   export type UserCreateWithoutSentFilesInput = {
@@ -4306,7 +4307,7 @@ export namespace Prisma {
   export type FileCreateWithoutSenderInput = {
     id?: string
     filename: string
-    s3Key: string
+    s3Key?: string | null
     fileSize: bigint | number
     status?: $Enums.FileStatus
     createdAt?: Date | string
@@ -4317,7 +4318,7 @@ export namespace Prisma {
   export type FileUncheckedCreateWithoutSenderInput = {
     id?: string
     filename: string
-    s3Key: string
+    s3Key?: string | null
     fileSize: bigint | number
     status?: $Enums.FileStatus
     createdAt?: Date | string
@@ -4338,7 +4339,7 @@ export namespace Prisma {
   export type FileCreateWithoutReceiverInput = {
     id?: string
     filename: string
-    s3Key: string
+    s3Key?: string | null
     fileSize: bigint | number
     status?: $Enums.FileStatus
     createdAt?: Date | string
@@ -4349,7 +4350,7 @@ export namespace Prisma {
   export type FileUncheckedCreateWithoutReceiverInput = {
     id?: string
     filename: string
-    s3Key: string
+    s3Key?: string | null
     fileSize: bigint | number
     status?: $Enums.FileStatus
     createdAt?: Date | string
@@ -4389,7 +4390,7 @@ export namespace Prisma {
     NOT?: FileScalarWhereInput | FileScalarWhereInput[]
     id?: UuidFilter<"File"> | string
     filename?: StringFilter<"File"> | string
-    s3Key?: StringFilter<"File"> | string
+    s3Key?: StringNullableFilter<"File"> | string | null
     fileSize?: BigIntFilter<"File"> | bigint | number
     status?: EnumFileStatusFilter<"File"> | $Enums.FileStatus
     createdAt?: DateTimeFilter<"File"> | Date | string
@@ -4417,7 +4418,7 @@ export namespace Prisma {
   export type FileCreateManySenderInput = {
     id?: string
     filename: string
-    s3Key: string
+    s3Key?: string | null
     fileSize: bigint | number
     status?: $Enums.FileStatus
     createdAt?: Date | string
@@ -4428,7 +4429,7 @@ export namespace Prisma {
   export type FileCreateManyReceiverInput = {
     id?: string
     filename: string
-    s3Key: string
+    s3Key?: string | null
     fileSize: bigint | number
     status?: $Enums.FileStatus
     createdAt?: Date | string
@@ -4439,7 +4440,7 @@ export namespace Prisma {
   export type FileUpdateWithoutSenderInput = {
     id?: StringFieldUpdateOperationsInput | string
     filename?: StringFieldUpdateOperationsInput | string
-    s3Key?: StringFieldUpdateOperationsInput | string
+    s3Key?: NullableStringFieldUpdateOperationsInput | string | null
     fileSize?: BigIntFieldUpdateOperationsInput | bigint | number
     status?: EnumFileStatusFieldUpdateOperationsInput | $Enums.FileStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -4450,7 +4451,7 @@ export namespace Prisma {
   export type FileUncheckedUpdateWithoutSenderInput = {
     id?: StringFieldUpdateOperationsInput | string
     filename?: StringFieldUpdateOperationsInput | string
-    s3Key?: StringFieldUpdateOperationsInput | string
+    s3Key?: NullableStringFieldUpdateOperationsInput | string | null
     fileSize?: BigIntFieldUpdateOperationsInput | bigint | number
     status?: EnumFileStatusFieldUpdateOperationsInput | $Enums.FileStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -4461,7 +4462,7 @@ export namespace Prisma {
   export type FileUncheckedUpdateManyWithoutSenderInput = {
     id?: StringFieldUpdateOperationsInput | string
     filename?: StringFieldUpdateOperationsInput | string
-    s3Key?: StringFieldUpdateOperationsInput | string
+    s3Key?: NullableStringFieldUpdateOperationsInput | string | null
     fileSize?: BigIntFieldUpdateOperationsInput | bigint | number
     status?: EnumFileStatusFieldUpdateOperationsInput | $Enums.FileStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -4472,7 +4473,7 @@ export namespace Prisma {
   export type FileUpdateWithoutReceiverInput = {
     id?: StringFieldUpdateOperationsInput | string
     filename?: StringFieldUpdateOperationsInput | string
-    s3Key?: StringFieldUpdateOperationsInput | string
+    s3Key?: NullableStringFieldUpdateOperationsInput | string | null
     fileSize?: BigIntFieldUpdateOperationsInput | bigint | number
     status?: EnumFileStatusFieldUpdateOperationsInput | $Enums.FileStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -4483,7 +4484,7 @@ export namespace Prisma {
   export type FileUncheckedUpdateWithoutReceiverInput = {
     id?: StringFieldUpdateOperationsInput | string
     filename?: StringFieldUpdateOperationsInput | string
-    s3Key?: StringFieldUpdateOperationsInput | string
+    s3Key?: NullableStringFieldUpdateOperationsInput | string | null
     fileSize?: BigIntFieldUpdateOperationsInput | bigint | number
     status?: EnumFileStatusFieldUpdateOperationsInput | $Enums.FileStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -4494,7 +4495,7 @@ export namespace Prisma {
   export type FileUncheckedUpdateManyWithoutReceiverInput = {
     id?: StringFieldUpdateOperationsInput | string
     filename?: StringFieldUpdateOperationsInput | string
-    s3Key?: StringFieldUpdateOperationsInput | string
+    s3Key?: NullableStringFieldUpdateOperationsInput | string | null
     fileSize?: BigIntFieldUpdateOperationsInput | bigint | number
     status?: EnumFileStatusFieldUpdateOperationsInput | $Enums.FileStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string

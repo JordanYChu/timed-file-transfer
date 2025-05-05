@@ -78,7 +78,23 @@ select:focus {
     margin: auto;
     overflow: hidden;
 }
+.file-preview-image {
+    opacity: 0;
+    animation: fadeIn 0.5s linear forwards;
+    animation-delay: 0.5s;
+}
 
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+.not-shown {
+    display:none;
+}
 .file-icon {
     box-sizing: border-box;
     padding: 1rem;

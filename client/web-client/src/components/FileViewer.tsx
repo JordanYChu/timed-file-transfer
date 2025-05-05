@@ -7,12 +7,31 @@ import "../assets/infoCard.css"
 import { FileSystemContext } from "../FileSystemProvider";
 import "../assets/loader.css"
 import { getUserFileLink } from "../services/fileApi";
+import React from "react";
 
 
 const formatDate = (iso: string) => new Date(iso).toLocaleDateString();
 const formatSize = (bytes: number) => `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
 
-const InfoCard = ({ file }: { file: FileMetaData }) => {
+const getRemainingTime = (date: string) => {
+    const time1 = new Date(date);
+    const time2 = new Date(); // Example earlier time
+    if (!time1 || !time2) return 0;
+
+    const diffMs = Math.abs(time1 - time2); // Difference in milliseconds
+
+    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+    const diffHours = Math.floor((diffMs / (1000 * 60 * 60)) % 24);
+    const diffMinutes = Math.floor((diffMs / (1000 * 60)) % 60);
+    const diffSeconds = Math.floor((diffMs / 1000) % 60);
+
+    if (diffDays !== 0) return `${diffDays} day(s)`
+    if (diffHours !== 0) return `${diffHours} hour(s)`
+    if (diffMinutes !== 0) return `${diffMinutes} minute(s)`
+    if (diffSeconds !== 0) return `${diffSeconds} second(s)`
+}
+
+const InfoCard = ({ file, preview }: { file: FileMetaData, preview: string | null }) => {
 
     return (
         <div className="info-card">
@@ -44,81 +63,128 @@ const InfoCard = ({ file }: { file: FileMetaData }) => {
                 </div>
             </div>
             <div className="preview-section">
-                <div className="preview-content">[ Add live preview here ]</div>
+                <div className="preview-content">
+                    <img src={`${preview}`} alt="" />
+                </div>
+            </div>
+            <div>
+                <button
+                    className="download-button"
+                    onClick={async () => {
+                        if (!preview) return;
+                        const response = await fetch(preview);
+                        const blob = await response.blob();
+                        const url = URL.createObjectURL(blob);
+
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = file.name;
+                        a.click();
+                        URL.revokeObjectURL(url);
+                    }}
+                >
+                    Download
+                </button>
             </div>
         </div>
     );
 }
+const FileCard = React.memo(({ file, index }: { file: FileMetaData, index: number }) => {
+    const token = useContext(AuthContext).user?.token;
+    if (!token) return;
+    const [url, setUrl] = useState<null | string>(null);
+    const [showPreview, setShowPreview] = useState(false);
+    const [selected, setSelected] = useState(false);
+    if (url == null) {
+        getUserFileLink(file.fileId, token).then(
+            (result) => {
+                setUrl(result.url);
+                if (fileTypeMapping[file.fileExtension]?.category === "Image") {
+                    setShowPreview(true)
+                }
+            }
+        );
+    }
+    const FileIcon = fileTypeMapping[file.fileExtension]?.icon || fallbackIcon;
+    return (
+        <div className={`file-card`}>
+            <div className="file-header">
+                <div className="fixed"> <FileIcon /> </div>
+                <div className="file-type"> <p>{file.name}</p> </ div>
+                <div className="fixed"> <Settings2 onClick={() => setSelected(true)} /> </div>
+            </div>
+            {!showPreview &&
+                <div className="file-preview ">
+                    <FileIcon className="file-icon" style={{ height: "100%", width: "100%" }} />
+                </div>
+            }
+            {
+                showPreview &&
+                <img className="file-preview file-preview-image" src={`${url}`} alt="image" referrerPolicy="no-referrer" />
+            }
+            <div className="file-footer">
+                <span className="file-type">{getRemainingTime(file.expiration)}</span>
+            </div>
+            {selected &&
+                <>
+                    <div className="unfocus-screen" onClick={() => setSelected(false)}></div>
+                    <InfoCard file={file} preview={url} />
+                </>
+            }
+        </div >
+    )
+}, (prevProps: { file: FileMetaData, index: number }, nextProps: { file: FileMetaData, index: number }) => {
+    return nextProps.file.fileId === prevProps.file.fileId;
+})
 
 const FileViewer = () => {
     const files = useContext(FileSystemContext).systemInfo.files;
-    const token = useContext(AuthContext).user?.token;
-    if (!token) return;
     const { isLoading, error } = useContext(FileSystemContext).systemStatus;
-    console.log(files)
     const [fileType, setFileType] = useState("All");
     const [search, setSearch] = useState("");
     const [showGrid, setShowGrid] = useState(true);
-    const [selectedFile, setSelectedFile] = useState<number | null>(null);
-
-    const FileCard = ({ file, index }: { file: FileMetaData, index: number }) => {
-        const [url, setUrl] = useState<null | string>(null);
-        getUserFileLink(file.fileId, token).then(
-            (result) => {
-                if (fileTypeMapping[file.fileExtension].category !== "Image") {
-                    return
-                }
-                setUrl(result.url);
-            }
-        );
-        const FileIcon = fileTypeMapping[file.fileExtension]?.icon || fallbackIcon;
-        return (
-            <div className="file-card">
-                <div className="file-header">
-                    <div className="fixed">
-                        <FileIcon />
-                    </div>
-                    <div className="file-type">
-                        <p>{file.name}</p>
-                    </ div>
-                    <div className="fixed">
-                        <Settings2 onClick={() => setSelectedFile(index)} />
-                    </div>
-                </div>
-                {url == null &&
-                    <div className="file-preview">
-                        <FileIcon className="file-icon" style={{ height: "100%", width: "100%" }} />
-                    </div>
-                }
-                {url !== null &&
-                    <img className="file-preview" src={`${url}`} alt="image" referrerPolicy="no-referrer" />
-                }
-                <div className="file-footer">
-                    <span className="file-type">{file.expiration}</span>
-                </div>
-            </div>
-        )
-    }
 
     const filterFiles = (files: FileMetaData[]) => {
 
-        if (fileType === "All") return files.filter(file => file.name.includes(search))
+        if (fileType === "All") return files.map(file => file.name.includes(search))
 
-        const filteredTypes = files.filter(file => {
+        const filteredTypes = files.map(file => {
             const mappedFile = fileTypeMapping[file.fileExtension];
             if (mappedFile) return mappedFile.category == fileType;
             return false;
         });
-        if (!search || search === "") {
-            return filteredTypes;
-        }
-        return filteredTypes.filter(file => file.name.includes(search))
 
+        const filteredSearch = files.map(file => {
+            return file.name.includes(search);
+        })
+
+        const filtered = [];
+        for (let i = 0; i < filteredTypes.length; i++) {
+            filtered.push(filteredTypes[i] && filteredSearch[i]);
+        }
+        return filtered;
     }
+
+    const shownFiles = useMemo(() => { return filterFiles(files) }, [search, fileType, isLoading])
 
     const handleFileTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setFileType(e.target.value);
     }
+    const fileCards = useMemo(() => {
+        if (showGrid && !isLoading && !error) {
+            return (
+                <div className="file-cards">
+                    {files.map((file, i) => (
+                        <div key={i} className={`${shownFiles[i] ? "shown" : "not-shown"}`}>
+                            <FileCard file={file} index={i} />
+                        </div>
+                    ))
+                    }
+                </div >
+            );
+        }
+        return null;
+    }, [files, showGrid, isLoading, error, search, fileType])
 
     return (
         <>
@@ -148,11 +214,7 @@ const FileViewer = () => {
                         <div className="loader-message">{error}</div>
                     </div>
                 }
-                {showGrid && !isLoading && !error && <div className="file-cards">
-                    {filterFiles(files).map((file, i) => {
-                        return <FileCard key={i} file={file} index={i}></FileCard>
-                    })}
-                </div>}
+                {fileCards}
                 {/* {!showGrid && <table> */}
                 {/* <tbody>
                         <tr>
@@ -172,12 +234,7 @@ const FileViewer = () => {
                     </tbody> */}
                 {/* </table>} */}
             </div>
-            {selectedFile !== null &&
-                <>
-                    <div className="unfocus-screen" onClick={() => setSelectedFile(null)}></div>
-                    <InfoCard file={files[selectedFile]} />
-                </>
-            }
+
         </>
     )
 }

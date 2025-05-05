@@ -17,6 +17,7 @@ export async function retrieveUserFiles(req: Request, res: Response): Promise<vo
     const files = await prisma.file.findMany({
       where: {
         senderId: userId,
+        status: { in: ['PENDING', 'ACCEPTED', 'DOWNLOADED', 'EXPIRED'] }
       },
       select: {
         id: true,
@@ -66,7 +67,7 @@ export async function retrieveUserFileLink(req: Request, res: Response): Promise
 
     // Query Prisma to get the file's details, including senderId and receiverId
     const file = await prisma.file.findUnique({
-      where: { id: fileId as string },
+      where: { id: fileId as string, status: { in: ['PENDING', 'ACCEPTED', 'DOWNLOADED', 'EXPIRED'] } },
       select: { s3Key: true, senderId: true, receiverId: true },
     });
 
@@ -82,8 +83,11 @@ export async function retrieveUserFileLink(req: Request, res: Response): Promise
     }
 
     // Generate a pre-signed URL for the file
+    if (!file.s3Key){
+      res.status(404).json({ error: 'File not found' });
+      return;
+    }
     const presignedUrl = await getPresignedGetObjectUrl(file.s3Key);
-
     // Return the pre-signed URL
     res.json({ url: presignedUrl });
   } catch (error) {
