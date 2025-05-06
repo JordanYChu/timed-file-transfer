@@ -1,0 +1,10 @@
+.login-screen {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+}
+
+.intro-section {
+    background-color: var(--bg-secondary);
+}

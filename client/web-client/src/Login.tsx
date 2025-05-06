@@ -3,6 +3,7 @@ import { auth } from './firebase'; // adjust the path if needed
 import { browserLocalPersistence, getAdditionalUserInfo, GoogleAuthProvider, setPersistence, signInWithPopup } from 'firebase/auth';
 import { AuthContext } from './components/AuthProvider';
 import { createAccount } from './services/fileApi';
+import "./assets/login.css"
 
 const Login = () => {
 
@@ -13,7 +14,6 @@ const Login = () => {
             const provider = new GoogleAuthProvider();
             try {
                 const result = await signInWithPopup(auth, provider);
-
                 const additionalUserInfo = getAdditionalUserInfo(result);
                 const isNewUser = additionalUserInfo?.isNewUser;
                 if (isNewUser) {
@@ -34,9 +34,14 @@ const Login = () => {
     }
 
     return (
-        <div>
-            <h1>Login Please</h1>
-            <button onClick={handleGoogleAuth}>click me</button>
+        <div className='login-screen'>
+            <div className='intro-section'>
+
+            </div>
+            <div>
+                <h1>Create an Account or Login</h1>
+                <button onClick={handleGoogleAuth}>click me</button>
+            </div>
         </div>
     )
 }
