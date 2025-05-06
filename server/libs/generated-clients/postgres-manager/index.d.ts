@@ -2204,16 +2204,19 @@ export namespace Prisma {
   export type UserMinAggregateOutputType = {
     id: string | null
     name: string | null
+    email: string | null
   }
 
   export type UserMaxAggregateOutputType = {
     id: string | null
     name: string | null
+    email: string | null
   }
 
   export type UserCountAggregateOutputType = {
     id: number
     name: number
+    email: number
     _all: number
   }
 
@@ -2221,16 +2224,19 @@ export namespace Prisma {
   export type UserMinAggregateInputType = {
     id?: true
     name?: true
+    email?: true
   }
 
   export type UserMaxAggregateInputType = {
     id?: true
     name?: true
+    email?: true
   }
 
   export type UserCountAggregateInputType = {
     id?: true
     name?: true
+    email?: true
     _all?: true
   }
 
@@ -2309,6 +2315,7 @@ export namespace Prisma {
   export type UserGroupByOutputType = {
     id: string
     name: string
+    email: string
     _count: UserCountAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
@@ -2331,6 +2338,7 @@ export namespace Prisma {
   export type UserSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
+    email?: boolean
     sentFiles?: boolean | User$sentFilesArgs<ExtArgs>
     receivedFiles?: boolean | User$receivedFilesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
@@ -2339,19 +2347,22 @@ export namespace Prisma {
   export type UserSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
+    email?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
+    email?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
     id?: boolean
     name?: boolean
+    email?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     sentFiles?: boolean | User$sentFilesArgs<ExtArgs>
     receivedFiles?: boolean | User$receivedFilesArgs<ExtArgs>
@@ -2369,6 +2380,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       name: string
+      email: string
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -2796,6 +2808,7 @@ export namespace Prisma {
   interface UserFieldRefs {
     readonly id: FieldRef<"User", 'String'>
     readonly name: FieldRef<"User", 'String'>
+    readonly email: FieldRef<"User", 'String'>
   }
     
 
@@ -3281,7 +3294,8 @@ export namespace Prisma {
 
   export const UserScalarFieldEnum: {
     id: 'id',
-    name: 'name'
+    name: 'name',
+    email: 'email'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -3489,6 +3503,7 @@ export namespace Prisma {
     NOT?: UserWhereInput | UserWhereInput[]
     id?: StringFilter<"User"> | string
     name?: StringFilter<"User"> | string
+    email?: StringFilter<"User"> | string
     sentFiles?: FileListRelationFilter
     receivedFiles?: FileListRelationFilter
   }
@@ -3496,23 +3511,26 @@ export namespace Prisma {
   export type UserOrderByWithRelationInput = {
     id?: SortOrder
     name?: SortOrder
+    email?: SortOrder
     sentFiles?: FileOrderByRelationAggregateInput
     receivedFiles?: FileOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    email?: string
     AND?: UserWhereInput | UserWhereInput[]
     OR?: UserWhereInput[]
     NOT?: UserWhereInput | UserWhereInput[]
     name?: StringFilter<"User"> | string
     sentFiles?: FileListRelationFilter
     receivedFiles?: FileListRelationFilter
-  }, "id">
+  }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
     id?: SortOrder
     name?: SortOrder
+    email?: SortOrder
     _count?: UserCountOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
     _min?: UserMinOrderByAggregateInput
@@ -3524,6 +3542,7 @@ export namespace Prisma {
     NOT?: UserScalarWhereWithAggregatesInput | UserScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"User"> | string
     name?: StringWithAggregatesFilter<"User"> | string
+    email?: StringWithAggregatesFilter<"User"> | string
   }
 
   export type FileCreateInput = {
@@ -3611,6 +3630,7 @@ export namespace Prisma {
   export type UserCreateInput = {
     id: string
     name: string
+    email: string
     sentFiles?: FileCreateNestedManyWithoutSenderInput
     receivedFiles?: FileCreateNestedManyWithoutReceiverInput
   }
@@ -3618,6 +3638,7 @@ export namespace Prisma {
   export type UserUncheckedCreateInput = {
     id: string
     name: string
+    email: string
     sentFiles?: FileUncheckedCreateNestedManyWithoutSenderInput
     receivedFiles?: FileUncheckedCreateNestedManyWithoutReceiverInput
   }
@@ -3625,6 +3646,7 @@ export namespace Prisma {
   export type UserUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
     sentFiles?: FileUpdateManyWithoutSenderNestedInput
     receivedFiles?: FileUpdateManyWithoutReceiverNestedInput
   }
@@ -3632,6 +3654,7 @@ export namespace Prisma {
   export type UserUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
     sentFiles?: FileUncheckedUpdateManyWithoutSenderNestedInput
     receivedFiles?: FileUncheckedUpdateManyWithoutReceiverNestedInput
   }
@@ -3639,16 +3662,19 @@ export namespace Prisma {
   export type UserCreateManyInput = {
     id: string
     name: string
+    email: string
   }
 
   export type UserUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
   }
 
   export type UserUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
   }
 
   export type UuidFilter<$PrismaModel = never> = {
@@ -3885,16 +3911,19 @@ export namespace Prisma {
   export type UserCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    email?: SortOrder
   }
 
   export type UserMaxOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    email?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    email?: SortOrder
   }
 
   export type UserCreateNestedOneWithoutSentFilesInput = {
@@ -4227,12 +4256,14 @@ export namespace Prisma {
   export type UserCreateWithoutSentFilesInput = {
     id: string
     name: string
+    email: string
     receivedFiles?: FileCreateNestedManyWithoutReceiverInput
   }
 
   export type UserUncheckedCreateWithoutSentFilesInput = {
     id: string
     name: string
+    email: string
     receivedFiles?: FileUncheckedCreateNestedManyWithoutReceiverInput
   }
 
@@ -4244,12 +4275,14 @@ export namespace Prisma {
   export type UserCreateWithoutReceivedFilesInput = {
     id: string
     name: string
+    email: string
     sentFiles?: FileCreateNestedManyWithoutSenderInput
   }
 
   export type UserUncheckedCreateWithoutReceivedFilesInput = {
     id: string
     name: string
+    email: string
     sentFiles?: FileUncheckedCreateNestedManyWithoutSenderInput
   }
 
@@ -4272,12 +4305,14 @@ export namespace Prisma {
   export type UserUpdateWithoutSentFilesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
     receivedFiles?: FileUpdateManyWithoutReceiverNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSentFilesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
     receivedFiles?: FileUncheckedUpdateManyWithoutReceiverNestedInput
   }
 
@@ -4295,12 +4330,14 @@ export namespace Prisma {
   export type UserUpdateWithoutReceivedFilesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
     sentFiles?: FileUpdateManyWithoutSenderNestedInput
   }
 
   export type UserUncheckedUpdateWithoutReceivedFilesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
     sentFiles?: FileUncheckedUpdateManyWithoutSenderNestedInput
   }
 

@@ -134,7 +134,8 @@ exports.Prisma.FileScalarFieldEnum = {
 
 exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
-  name: 'name'
+  name: 'name',
+  email: 'email'
 };
 
 exports.Prisma.SortOrder = {

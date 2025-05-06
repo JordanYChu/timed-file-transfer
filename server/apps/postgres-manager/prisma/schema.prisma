@@ -32,6 +32,7 @@ model File {
 model User {
   id            String @id
   name          String
+  email         String @unique
   sentFiles     File[] @relation("SentFiles")
   receivedFiles File[] @relation("ReceivedFiles")
 }

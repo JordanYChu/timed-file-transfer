@@ -19,8 +19,8 @@ export default async function newUserHandler(
   const fileRecord = await prisma.user.create({
     data: {
       id: id,
-      name: name
-      // email: email
+      name: name,
+      email: email
     },
   });
 
