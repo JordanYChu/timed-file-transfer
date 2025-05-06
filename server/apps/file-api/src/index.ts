@@ -6,7 +6,7 @@ import uploadFileHandler from './routes/upload';
 import newUserHandler from './routes/register-user'
 import {retrieveUserFiles, retrieveUserFileLink} from './routes/user-files';
 import { deleteFileHandler } from './routes/delete';
-import { shareFile } from './routes/sharing';
+import { shareFile, retrieveSharedFiles } from './routes/sharing';
 
 
 import { authenticate } from './auth';
@@ -28,6 +28,7 @@ app.get('/user-files', upload.none(), retrieveUserFiles);
 app.get('/file-link', upload.none(), retrieveUserFileLink)
 app.get('/delete-file', upload.none(), deleteFileHandler)
 app.get('/sharing', upload.none(), shareFile)
+app.get('/get-shared', upload.none(), retrieveSharedFiles)
 
 app.listen(3000, () => {
   console.log('File API listening on http://localhost:3000');

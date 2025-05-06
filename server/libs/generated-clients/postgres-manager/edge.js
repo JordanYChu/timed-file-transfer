@@ -177,12 +177,11 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
-  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
         "fromEnvVar": "DATABASE_URL",
-        "value": null
+        "value": "postgresql://isithat:postgresTFTatKyo@kyo.tail5a8e5c.ts.net:32769/TimedFileDb?schema=public"
       }
     }
   },
