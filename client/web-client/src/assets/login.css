@@ -1,0 +1,72 @@
+.login-screen {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    text-align: left;
+}
+
+.intro-section {
+    background-color: var(--bg-secondary);
+    padding-top: 5rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
+
+.login-section {
+    box-sizing: border-box;
+    padding: 12rem 1rem;
+}
+
+.signup {
+    border: none;
+    background: var(--bg-secondary);
+    border: 2px solid var(--border);
+    padding: 1rem;
+    border-radius: 1rem;
+    width: 100%
+}
+
+p, li {
+    box-sizing: border-box;
+    transition-duration: 250ms;
+    border-bottom: 2px solid var(--bg);
+}
+
+p {
+    padding: 1rem;
+    margin: 1rem;
+    background: var(--bg);
+    border-left: 2px solid var(--primary);
+}
+
+p:hover {
+    border-bottom: 2px solid var(--primary);
+}
+
+li:hover {
+    border-bottom: 2px solid var(--primary);
+}
+
+ul {
+    border-left: 2px solid var(--primary);
+    list-style: none;
+    padding-right:  1rem;
+    margin-left: 2rem;
+}
+li {
+    background-color: var(--bg);
+    padding: 0.5rem 0;
+    padding-left: 1rem;
+    margin: 1rem 0;
+}
+
+.title {
+    font-size: 4rem;
+    transition-duration: 250ms;
+    text-shadow: -2px 0 0 var(--primary);
+}
+
+.title:hover {
+    text-shadow: -6px 0 0 var(--primary);
+}

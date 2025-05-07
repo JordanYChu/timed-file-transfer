@@ -147,7 +147,7 @@ const FileCard = React.memo(({ file, index }: { file: FileMetaData, index: numbe
                 <img className="file-preview file-preview-image" src={`${url}`} alt="image" referrerPolicy="no-referrer" />
             }
             <div className="file-footer">
-                <span className="file-type">{getRemainingTime(file.expiration)}</span>
+                <span className="file-type">Expires in {getRemainingTime(file.expiration)}</span>
             </div>
             {selected &&
                 <>
