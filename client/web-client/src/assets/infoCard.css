@@ -66,3 +66,23 @@
 .preview-content > img {
     height: 100%;
 }
+
+.info-header {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(33%, 1fr));
+}
+
+.delete-button-container {
+    display: flex;
+}
+.delete-button {
+    all: unset;
+    box-sizing: border-box;
+    background: var(--error);
+    border-radius: 1rem;
+    padding: 0 1rem;
+}
+
+.delete-button:hover {
+    cursor: pointer;
+}
