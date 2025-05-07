@@ -29,7 +29,6 @@
     box-sizing: border-box;
     aspect-ratio: 1/1;
     margin: 1rem;
-    background: conic-gradient(var(--primary) 0deg, #1DCD9F 123deg, var(--border) 123deg 360deg);
     /* background: conic-gradient(from 0deg  to 180deg, black, grey); */
     border-radius: 100%;
 }

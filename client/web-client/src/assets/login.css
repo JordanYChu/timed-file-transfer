@@ -27,24 +27,24 @@
     width: 100%
 }
 
-p, li {
+.intro-section  li {
     box-sizing: border-box;
     transition-duration: 250ms;
     border-bottom: 2px solid var(--bg);
 }
 
-p {
+.intro-section > p {
     padding: 1rem;
     margin: 1rem;
     background: var(--bg);
     border-left: 2px solid var(--primary);
 }
 
-p:hover {
+.intro-section > p:hover {
     border-bottom: 2px solid var(--primary);
 }
 
-li:hover {
+.intro-section > li:hover {
     border-bottom: 2px solid var(--primary);
 }
 

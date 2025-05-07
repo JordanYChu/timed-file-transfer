@@ -16,6 +16,9 @@
     border: solid var(--primary) 2px;
     border-radius: 100%;
 }
+.profile-picture:hover {
+    cursor: pointer;
+}
 
 .box {
     position: relative;
@@ -30,6 +33,7 @@
 }
 
 .notification-button {
+    all:unset;
     color: var(--text);
     position: relative;
     border: none;
