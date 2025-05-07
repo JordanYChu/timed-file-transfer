@@ -35,6 +35,7 @@ model User {
   email         String @unique
   sentFiles     File[] @relation("SentFiles")
   receivedFiles File[] @relation("ReceivedFiles")
+  storageSpace  BigInt @default(5000000000)
 }
 
 enum FileStatus {

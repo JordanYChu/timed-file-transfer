@@ -22,11 +22,18 @@ export default async function newUserHandler(
       name: name,
       email: email
     },
+    select: {
+      storageSpace: true,
+      id: true,
+      email: true,
+      name: true,
+    }
   });
 
   // 3. Return success
   res.json({
     id: fileRecord.id,
-    name: fileRecord.name
+    name: fileRecord.name,
+    storageSpace: fileRecord.storageSpace
   });
 }
