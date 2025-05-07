@@ -149,7 +149,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Users\\ilbte\\Desktop\\timed-file-transfer\\server\\libs\\generated-clients\\postgres-manager",
+      "value": "C:\\Users\\Thequ\\OneDrive\\Desktop\\fast file transfer project\\timed-file-transfer\\server\\libs\\generated-clients\\postgres-manager",
       "fromEnvVar": null
     },
     "config": {
@@ -164,7 +164,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\Users\\ilbte\\Desktop\\timed-file-transfer\\server\\apps\\postgres-manager\\prisma\\schema.prisma",
+    "sourceFilePath": "C:\\Users\\Thequ\\OneDrive\\Desktop\\fast file transfer project\\timed-file-transfer\\server\\apps\\postgres-manager\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -178,11 +178,12 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
         "fromEnvVar": "DATABASE_URL",
-        "value": "postgresql://isithat:postgresTFTatKyo@kyo.tail5a8e5c.ts.net:32769/TimedFileDb?schema=public"
+        "value": null
       }
     }
   },

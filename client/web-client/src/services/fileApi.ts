@@ -45,12 +45,53 @@ export const getUserFiles = async (token: string) => {
         console.error(error);
         return null;
     }
-};
+}
+export const getSharedFiles = async (token: string) => {
+    try {
+        console.log("Attempting to get shared files files...")
+        const response = await fetch('http://localhost:3000/get-shared', {
+            method: "GET",
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error("Failed to fetch shared files");
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+};;
 
 export const getUserFileLink = async (fileId: string, token: string) => {
     try {
         console.log("Attempting to retrieve file link...")
         const response = await fetch(`http://localhost:3000/file-link?fileId=${fileId}`, {
+            method: "GET",
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error("Failed to fetch user files");
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+};
+
+export const shareFile = async (fileId: string, email: string, token: undefined) => {
+    try {
+        console.log("Attempting to share...")
+        const response = await fetch(`http://localhost:3000/sharing?fileId=${fileId}&email=${email}`, {
             method: "GET",
             headers: {
                 'Authorization': `Bearer ${token}`
