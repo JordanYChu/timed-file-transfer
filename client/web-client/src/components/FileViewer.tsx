@@ -6,7 +6,7 @@ import { fallbackIcon, fileTypeMapping, fileTypes, FileMetaData } from "../fileM
 import "../assets/infoCard.css"
 import { FileSystemContext } from "../FileSystemProvider";
 import "../assets/loader.css"
-import { getUserFileLink, shareFile } from "../services/fileApi";
+import { deleteFile, getUserFileLink, shareFile } from "../services/fileApi";
 import React from "react";
 import { auth } from "../firebase";
 
@@ -38,7 +38,13 @@ const InfoCard = ({ file, preview }: { file: FileMetaData, preview: string | nul
     return (
         <div className="info-card">
             <div className="info-header">
+                <div className="delete-button-container">
+                    <button className="delete-button"
+                        onClick={() => deleteFile(file.fileId, token)}
+                    >Delete</button>
+                </div>
                 <span className="info-title">{file.name}</span>
+                <div></div>
             </div>
             <div className="info-section">
                 <div className="info-box">

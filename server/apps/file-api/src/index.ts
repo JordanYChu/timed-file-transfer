@@ -4,7 +4,7 @@ import multer from 'multer';
 import cors from 'cors';
 import uploadFileHandler from './routes/upload';
 import newUserHandler from './routes/register-user'
-import {retrieveUserFiles, retrieveUserFileLink} from './routes/user-files';
+import { retrieveUserFiles, retrieveUserFileLink } from './routes/user-files';
 import { deleteFileHandler } from './routes/delete';
 import { shareFile, retrieveSharedFiles } from './routes/sharing';
 
@@ -26,10 +26,10 @@ app.post('/upload', upload.single('file'), uploadFileHandler);
 app.post('/register-user', upload.none(), newUserHandler);
 app.get('/user-files', upload.none(), retrieveUserFiles);
 app.get('/file-link', upload.none(), retrieveUserFileLink)
-app.get('/delete-file', upload.none(), deleteFileHandler)
+app.delete('/delete-file', upload.none(), deleteFileHandler)
 app.get('/sharing', upload.none(), shareFile)
 app.get('/get-shared', upload.none(), retrieveSharedFiles)
 
 app.listen(3000, () => {
-  console.log('File API listening on http://localhost:3000');
+    console.log('File API listening on http://localhost:3000');
 });
