@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { FileMetaData } from "./fileMapping";
 import { AuthContext } from "./components/AuthProvider";
-import { getUserFiles } from "./services/fileApi";
+import { getSharedFiles, getUserFiles } from "./services/fileApi";
 import { renderToReadableStream } from "react-dom/server";
 
 type FileSystemInfo = {
@@ -222,11 +222,13 @@ const FileSystemProvider = ({ children }: any) => {
     const getData = async () => {
         if (!token) return;
         setSystemStatus({ error: null, isLoading: true });
-        const result = await getUserFiles(token) as { [key: number]: jsonFileData };
-        if (!result) {
+
+        // Get user files
+        const userResult = await getUserFiles(token) as { [key: number]: jsonFileData };
+        if (!userResult) {
             return
         }
-        const retrievedFiles = Object.values(result).map(file => {
+        const retrievedUserFiles = Object.values(userResult).map(file => {
             return {
                 fileId: file.id,
                 fileSize: Number(file.fileSize),
@@ -236,9 +238,27 @@ const FileSystemProvider = ({ children }: any) => {
                 fileExtension: getFileExtension(file.filename)
             } as FileMetaData
         })
-        const usedStorage = Object.values(retrievedFiles).reduce((sum, file) => sum + file.fileSize, 0);
+
+        // get shared files
+        const sharedResult = await getSharedFiles(token) as { [key: number]: jsonFileData };
+        if (!sharedResult) {
+            return
+        }
+        const retrievedSharedFiles = Object.values(sharedResult).map(file => {
+            return {
+                fileId: file.id,
+                fileSize: Number(file.fileSize),
+                creation: file.createdAt,
+                expiration: file.expiresAt,
+                name: file.filename,
+                fileExtension: getFileExtension(file.filename)
+            } as FileMetaData
+        })
+
+        const usedStorage = Object.values(retrievedUserFiles).reduce((sum, file) => sum + file.fileSize, 0);
+        retrievedUserFiles.push(...retrievedSharedFiles)
         setSystemInfo({
-            files: retrievedFiles,
+            files: retrievedUserFiles,
             storage: 100,
             usedStorage: usedStorage
         });

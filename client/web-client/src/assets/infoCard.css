@@ -63,6 +63,18 @@
     cursor: pointer;
 }
 
+.share-button {
+    box-sizing: border-box;
+    all: unset;
+    background: var(--idle);
+    width: 100%;
+    padding: 1rem 0;
+}
+
+.share-button:hover {
+    cursor: pointer;
+}
+
 .preview-content > img {
     height: 100%;
 }

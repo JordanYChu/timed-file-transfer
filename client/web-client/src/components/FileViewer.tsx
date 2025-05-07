@@ -6,8 +6,9 @@ import { fallbackIcon, fileTypeMapping, fileTypes, FileMetaData } from "../fileM
 import "../assets/infoCard.css"
 import { FileSystemContext } from "../FileSystemProvider";
 import "../assets/loader.css"
-import { getUserFileLink } from "../services/fileApi";
+import { getUserFileLink, shareFile } from "../services/fileApi";
 import React from "react";
+import { auth } from "../firebase";
 
 
 const formatDate = (iso: string) => new Date(iso).toLocaleDateString();
@@ -32,7 +33,8 @@ const getRemainingTime = (date: string) => {
 }
 
 const InfoCard = ({ file, preview }: { file: FileMetaData, preview: string | null }) => {
-
+    const token = useContext(AuthContext).user?.token;
+    const [email, setEmail] = useState("");
     return (
         <div className="info-card">
             <div className="info-header">
@@ -68,6 +70,16 @@ const InfoCard = ({ file, preview }: { file: FileMetaData, preview: string | nul
                 </div>
             </div>
             <div>
+                <div className="info-box">
+                    <label htmlFor="email-entry">Email of recipetent:</label>
+                    <input name="email-entry" className="email-entry" type="text" placeholder="Enter Email" />
+                </div>
+                <button
+                    className="share-button"
+                    onClick={() => shareFile(file.fileId, email, token)}
+                >
+                    share
+                </button>
                 <button
                     className="download-button"
                     onClick={async () => {
