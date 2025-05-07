@@ -4,13 +4,12 @@ import { fileTypes, fileTypeMapping } from "../fileMapping";
 import { FileSystemContext } from "../FileSystemProvider";
 
 const Drive = () => {
-    const { files, usedStorage } = useContext(FileSystemContext).systemInfo;
+    const { files, usedStorage, storage } = useContext(FileSystemContext).systemInfo;
     const isLoading = useContext(FileSystemContext).systemStatus.isLoading;
 
-    const storage = 100000000;
     const driveUsageDegree = 360 * usedStorage / storage;
 
-
+    console.log(storage)
     const fileCounts = Object.fromEntries(fileTypes.map(key => [key, 0]));
     for (let file of files) {
         const category = fileTypeMapping[file.fileExtension].category;

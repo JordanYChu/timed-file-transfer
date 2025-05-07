@@ -225,10 +225,14 @@ const FileSystemProvider = ({ children }: any) => {
         setSystemStatus({ error: null, isLoading: true });
 
         // Get user files
-        const userResult = await getUserFiles(token) as { [key: number]: jsonFileData };
+        const userResult = await getUserFiles(token) as { [key: number | string]: jsonFileData };
         if (!userResult) {
             return
         }
+
+        const maxStorage = Number(userResult["totalStorage"]);
+        delete userResult["totalStorage"];
+
         const retrievedUserFiles = Object.values(userResult).map(file => {
             return {
                 fileId: file.id,
@@ -262,7 +266,7 @@ const FileSystemProvider = ({ children }: any) => {
         retrievedUserFiles.push(...retrievedSharedFiles)
         setSystemInfo({
             files: retrievedUserFiles,
-            storage: 100,
+            storage: maxStorage,
             usedStorage: usedStorage
         });
         setSystemStatus({
@@ -273,17 +277,6 @@ const FileSystemProvider = ({ children }: any) => {
 
     useEffect(() => {
         getData()
-        // setTimeout(() => {
-        //     setSystemInfo({
-        //         files: filesMeataData,
-        //         storage: 100,
-        //         usedStorage: 10
-        //     });
-        //     setSystemStatus({
-        //         isLoading: false,
-        //         error: null
-        //     })
-        // }, 2500)
     }, [])
 
     const values = {
