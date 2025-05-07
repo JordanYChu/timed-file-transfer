@@ -13,6 +13,15 @@ export async function retrieveUserFiles(req: Request, res: Response): Promise<vo
       return;
     }
 
+    const userStore = await prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+      select: {
+        storageSpace: true
+      }
+    })
+
     // Query Prisma to get all files where the user is the sender
     const files = await prisma.file.findMany({
       where: {
@@ -38,7 +47,7 @@ export async function retrieveUserFiles(req: Request, res: Response): Promise<vo
 
 
     // Return the files as a JSON response
-    res.json(formattedFiles);
+    res.json({...formattedFiles, totalStorage: userStore?.storageSpace.toString()});
   } catch (error) {
     console.error('Error retrieving user files:', error);
     res.status(500).json({ error: 'Failed to retrieve user files' });
