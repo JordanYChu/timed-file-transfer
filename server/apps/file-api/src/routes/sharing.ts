@@ -48,7 +48,7 @@ export async function shareFile(req: Request, res: Response): Promise<void> {
 
     await prisma.file.update({
       where: { id: fileId as string },
-      data: { receiverId: file.receiverId as string },
+      data: { receiverId: receiver.id as string },
     });
 
 

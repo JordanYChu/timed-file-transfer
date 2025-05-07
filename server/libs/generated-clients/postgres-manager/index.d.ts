@@ -2197,46 +2197,70 @@ export namespace Prisma {
 
   export type AggregateUser = {
     _count: UserCountAggregateOutputType | null
+    _avg: UserAvgAggregateOutputType | null
+    _sum: UserSumAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
+  }
+
+  export type UserAvgAggregateOutputType = {
+    storageSpace: number | null
+  }
+
+  export type UserSumAggregateOutputType = {
+    storageSpace: bigint | null
   }
 
   export type UserMinAggregateOutputType = {
     id: string | null
     name: string | null
     email: string | null
+    storageSpace: bigint | null
   }
 
   export type UserMaxAggregateOutputType = {
     id: string | null
     name: string | null
     email: string | null
+    storageSpace: bigint | null
   }
 
   export type UserCountAggregateOutputType = {
     id: number
     name: number
     email: number
+    storageSpace: number
     _all: number
   }
 
+
+  export type UserAvgAggregateInputType = {
+    storageSpace?: true
+  }
+
+  export type UserSumAggregateInputType = {
+    storageSpace?: true
+  }
 
   export type UserMinAggregateInputType = {
     id?: true
     name?: true
     email?: true
+    storageSpace?: true
   }
 
   export type UserMaxAggregateInputType = {
     id?: true
     name?: true
     email?: true
+    storageSpace?: true
   }
 
   export type UserCountAggregateInputType = {
     id?: true
     name?: true
     email?: true
+    storageSpace?: true
     _all?: true
   }
 
@@ -2278,6 +2302,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: UserAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: UserSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: UserMinAggregateInputType
@@ -2308,6 +2344,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: UserCountAggregateInputType | true
+    _avg?: UserAvgAggregateInputType
+    _sum?: UserSumAggregateInputType
     _min?: UserMinAggregateInputType
     _max?: UserMaxAggregateInputType
   }
@@ -2316,7 +2354,10 @@ export namespace Prisma {
     id: string
     name: string
     email: string
+    storageSpace: bigint
     _count: UserCountAggregateOutputType | null
+    _avg: UserAvgAggregateOutputType | null
+    _sum: UserSumAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
   }
@@ -2339,6 +2380,7 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     email?: boolean
+    storageSpace?: boolean
     sentFiles?: boolean | User$sentFilesArgs<ExtArgs>
     receivedFiles?: boolean | User$receivedFilesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
@@ -2348,21 +2390,24 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     email?: boolean
+    storageSpace?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
     email?: boolean
+    storageSpace?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
     id?: boolean
     name?: boolean
     email?: boolean
+    storageSpace?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "storageSpace", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     sentFiles?: boolean | User$sentFilesArgs<ExtArgs>
     receivedFiles?: boolean | User$receivedFilesArgs<ExtArgs>
@@ -2381,6 +2426,7 @@ export namespace Prisma {
       id: string
       name: string
       email: string
+      storageSpace: bigint
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -2809,6 +2855,7 @@ export namespace Prisma {
     readonly id: FieldRef<"User", 'String'>
     readonly name: FieldRef<"User", 'String'>
     readonly email: FieldRef<"User", 'String'>
+    readonly storageSpace: FieldRef<"User", 'BigInt'>
   }
     
 
@@ -3295,7 +3342,8 @@ export namespace Prisma {
   export const UserScalarFieldEnum: {
     id: 'id',
     name: 'name',
-    email: 'email'
+    email: 'email',
+    storageSpace: 'storageSpace'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -3504,6 +3552,7 @@ export namespace Prisma {
     id?: StringFilter<"User"> | string
     name?: StringFilter<"User"> | string
     email?: StringFilter<"User"> | string
+    storageSpace?: BigIntFilter<"User"> | bigint | number
     sentFiles?: FileListRelationFilter
     receivedFiles?: FileListRelationFilter
   }
@@ -3512,6 +3561,7 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     email?: SortOrder
+    storageSpace?: SortOrder
     sentFiles?: FileOrderByRelationAggregateInput
     receivedFiles?: FileOrderByRelationAggregateInput
   }
@@ -3523,6 +3573,7 @@ export namespace Prisma {
     OR?: UserWhereInput[]
     NOT?: UserWhereInput | UserWhereInput[]
     name?: StringFilter<"User"> | string
+    storageSpace?: BigIntFilter<"User"> | bigint | number
     sentFiles?: FileListRelationFilter
     receivedFiles?: FileListRelationFilter
   }, "id" | "email">
@@ -3531,9 +3582,12 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     email?: SortOrder
+    storageSpace?: SortOrder
     _count?: UserCountOrderByAggregateInput
+    _avg?: UserAvgOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
     _min?: UserMinOrderByAggregateInput
+    _sum?: UserSumOrderByAggregateInput
   }
 
   export type UserScalarWhereWithAggregatesInput = {
@@ -3543,6 +3597,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"User"> | string
     name?: StringWithAggregatesFilter<"User"> | string
     email?: StringWithAggregatesFilter<"User"> | string
+    storageSpace?: BigIntWithAggregatesFilter<"User"> | bigint | number
   }
 
   export type FileCreateInput = {
@@ -3631,6 +3686,7 @@ export namespace Prisma {
     id: string
     name: string
     email: string
+    storageSpace?: bigint | number
     sentFiles?: FileCreateNestedManyWithoutSenderInput
     receivedFiles?: FileCreateNestedManyWithoutReceiverInput
   }
@@ -3639,6 +3695,7 @@ export namespace Prisma {
     id: string
     name: string
     email: string
+    storageSpace?: bigint | number
     sentFiles?: FileUncheckedCreateNestedManyWithoutSenderInput
     receivedFiles?: FileUncheckedCreateNestedManyWithoutReceiverInput
   }
@@ -3647,6 +3704,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    storageSpace?: BigIntFieldUpdateOperationsInput | bigint | number
     sentFiles?: FileUpdateManyWithoutSenderNestedInput
     receivedFiles?: FileUpdateManyWithoutReceiverNestedInput
   }
@@ -3655,6 +3713,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    storageSpace?: BigIntFieldUpdateOperationsInput | bigint | number
     sentFiles?: FileUncheckedUpdateManyWithoutSenderNestedInput
     receivedFiles?: FileUncheckedUpdateManyWithoutReceiverNestedInput
   }
@@ -3663,18 +3722,21 @@ export namespace Prisma {
     id: string
     name: string
     email: string
+    storageSpace?: bigint | number
   }
 
   export type UserUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    storageSpace?: BigIntFieldUpdateOperationsInput | bigint | number
   }
 
   export type UserUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    storageSpace?: BigIntFieldUpdateOperationsInput | bigint | number
   }
 
   export type UuidFilter<$PrismaModel = never> = {
@@ -3912,18 +3974,29 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     email?: SortOrder
+    storageSpace?: SortOrder
+  }
+
+  export type UserAvgOrderByAggregateInput = {
+    storageSpace?: SortOrder
   }
 
   export type UserMaxOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
     email?: SortOrder
+    storageSpace?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
     email?: SortOrder
+    storageSpace?: SortOrder
+  }
+
+  export type UserSumOrderByAggregateInput = {
+    storageSpace?: SortOrder
   }
 
   export type UserCreateNestedOneWithoutSentFilesInput = {
@@ -4257,6 +4330,7 @@ export namespace Prisma {
     id: string
     name: string
     email: string
+    storageSpace?: bigint | number
     receivedFiles?: FileCreateNestedManyWithoutReceiverInput
   }
 
@@ -4264,6 +4338,7 @@ export namespace Prisma {
     id: string
     name: string
     email: string
+    storageSpace?: bigint | number
     receivedFiles?: FileUncheckedCreateNestedManyWithoutReceiverInput
   }
 
@@ -4276,6 +4351,7 @@ export namespace Prisma {
     id: string
     name: string
     email: string
+    storageSpace?: bigint | number
     sentFiles?: FileCreateNestedManyWithoutSenderInput
   }
 
@@ -4283,6 +4359,7 @@ export namespace Prisma {
     id: string
     name: string
     email: string
+    storageSpace?: bigint | number
     sentFiles?: FileUncheckedCreateNestedManyWithoutSenderInput
   }
 
@@ -4306,6 +4383,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    storageSpace?: BigIntFieldUpdateOperationsInput | bigint | number
     receivedFiles?: FileUpdateManyWithoutReceiverNestedInput
   }
 
@@ -4313,6 +4391,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    storageSpace?: BigIntFieldUpdateOperationsInput | bigint | number
     receivedFiles?: FileUncheckedUpdateManyWithoutReceiverNestedInput
   }
 
@@ -4331,6 +4410,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    storageSpace?: BigIntFieldUpdateOperationsInput | bigint | number
     sentFiles?: FileUpdateManyWithoutSenderNestedInput
   }
 
@@ -4338,6 +4418,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    storageSpace?: BigIntFieldUpdateOperationsInput | bigint | number
     sentFiles?: FileUncheckedUpdateManyWithoutSenderNestedInput
   }
 

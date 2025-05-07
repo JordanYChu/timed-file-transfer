@@ -19,6 +19,34 @@ export default async function uploadFileHandler(
     return;
   }
 
+  const UserLimit = await prisma.user.findUnique({
+    where: {id: userId},
+    select: {storageSpace: true}
+  })
+
+  if (!UserLimit){
+    res.status(400).json({ error: 'Userlimit not set' });
+    return;
+  }
+  var totalStored = await prisma.file.aggregate({
+    _sum: {
+      fileSize: true,
+    },
+    where: {
+      senderId: userId,
+      status: { in: ['PENDING', 'ACCEPTED', 'DOWNLOADED', 'EXPIRED'] } 
+    }
+  });
+
+  if (totalStored._sum.fileSize == null){
+    totalStored._sum.fileSize = BigInt(0)
+  }
+
+  if ((BigInt(req.file.size) + (totalStored._sum.fileSize)) > UserLimit.storageSpace) {
+    res.status(400).json({ error: 'Out of User Storage' });
+    return;
+  }
+  
   // 1. Upload file bytes to MinIO/S3
   const fileKey = `${userId}/${uuid()}_${req.file.originalname}`;
   try {
