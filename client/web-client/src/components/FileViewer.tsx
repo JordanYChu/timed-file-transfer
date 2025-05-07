@@ -35,12 +35,19 @@ const getRemainingTime = (date: string) => {
 const InfoCard = ({ file, preview }: { file: FileMetaData, preview: string | null }) => {
     const token = useContext(AuthContext).user?.token;
     const [email, setEmail] = useState("");
+    const getFiles = useContext(FileSystemContext).getFiles;
+
     return (
         <div className="info-card">
             <div className="info-header">
                 <div className="delete-button-container">
                     <button className="delete-button"
-                        onClick={() => deleteFile(file.fileId, token)}
+                        onClick={() => {
+                            deleteFile(file.fileId, token)
+                            getFiles();
+
+                        }
+                        }
                     >Delete</button>
                 </div>
                 <span className="info-title">{file.name}</span>
@@ -78,7 +85,7 @@ const InfoCard = ({ file, preview }: { file: FileMetaData, preview: string | nul
             <div>
                 <div className="info-box">
                     <label htmlFor="email-entry">Email of recipetent:</label>
-                    <input name="email-entry" className="email-entry" type="text" placeholder="Enter Email" />
+                    <input name="email-entry" className="email-entry" type="text" placeholder="Enter Email" onChange={(e) => setEmail(e.target.value)} />
                 </div>
                 <button
                     className="share-button"

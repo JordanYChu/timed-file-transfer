@@ -39,7 +39,7 @@ const Dashboard = () => {
             <Profile />
             <FileSystemProvider>
                 <div className='main-body'>
-                    <Notifications notifications={notifications} />
+                    <Notifications notifications={notifications} setNotifications={setNotifications} />
                     <div className='file-section'>
                         <FileInput changeUploadStatus={changeNotification} />
                         <FileViewer />

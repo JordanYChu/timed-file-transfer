@@ -26,3 +26,7 @@
 .file-input:hover {
     cursor: pointer;
 }
+
+.file-header > svg:hover {
+    cursor: pointer;
+}

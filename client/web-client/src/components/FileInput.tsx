@@ -15,7 +15,7 @@ const FileInput = ({ changeUploadStatus }: { changeUploadStatus: (id: string, no
         const file = e.target.files?.[0];
         if (!file || !userId || !token) return;
 
-        const id = file.name + Math.floor(Math.random() * 123);
+        const id = file.name;
         const notification: FileNotification = { fileName: file.name, message: "uploading...", fileStatus: 0 }
         changeUploadStatus(id, notification);
         const result = await uploadFile(file, userId, token);
