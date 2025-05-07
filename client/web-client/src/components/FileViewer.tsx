@@ -51,7 +51,6 @@ const InfoCard = ({ file, preview }: { file: FileMetaData, preview: string | nul
                     >Delete</button>
                 </div>
                 <span className="info-title">{file.name}</span>
-                <div></div>
             </div>
             <div className="info-section">
                 <div className="info-box">
@@ -167,7 +166,6 @@ const FileViewer = () => {
     const { isLoading, error } = useContext(FileSystemContext).systemStatus;
     const [fileType, setFileType] = useState("All");
     const [search, setSearch] = useState("");
-    const [showGrid, setShowGrid] = useState(true);
 
     const filterFiles = (files: FileMetaData[]) => {
 
@@ -196,7 +194,7 @@ const FileViewer = () => {
         setFileType(e.target.value);
     }
     const fileCards = useMemo(() => {
-        if (showGrid && !isLoading && !error) {
+        if (!isLoading && !error) {
             return (
                 <div className="file-cards">
                     {files.map((file, i) => (
@@ -209,7 +207,7 @@ const FileViewer = () => {
             );
         }
         return null;
-    }, [files, showGrid, isLoading, error, search, fileType])
+    }, [files, isLoading, error, search, fileType])
 
     return (
         <>
@@ -223,9 +221,6 @@ const FileViewer = () => {
                         <option value="All">All</option>
                         {fileTypes.map((fileType, i) => <option key={i} value={fileType}>{fileType}</option>)}
                     </select>
-                    <button>Recent</button>
-                    {showGrid ? <List className="show-type" onClick={() => setShowGrid(!showGrid)} /> :
-                        <Box className="show-type" onClick={() => setShowGrid(!showGrid)} />}
                 </div>
                 {isLoading &&
                     <div className="loading-files">
@@ -240,24 +235,7 @@ const FileViewer = () => {
                     </div>
                 }
                 {fileCards}
-                {/* {!showGrid && <table> */}
-                {/* <tbody>
-                        <tr>
-                            <td>File Name</td>
-                            <td>Type</td>
-                            <td>Removed</td>
-                        </tr>
-                        {files.map((file, i) => {
-                            return (
-                                <tr>
-                                    <td>{file}</td>
-                                    <td>txt</td>
-                                    <td>2025</td>
-                                </tr>
-                            )
-                        })}
-                    </tbody> */}
-                {/* </table>} */}
+
             </div>
 
         </>
