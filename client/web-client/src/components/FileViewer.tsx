@@ -34,23 +34,27 @@ const getRemainingTime = (date: string) => {
 
 const InfoCard = ({ file, preview }: { file: FileMetaData, preview: string | null }) => {
     const token = useContext(AuthContext).user?.token;
+    const userId = useContext(AuthContext).user?.uid;
     const [email, setEmail] = useState("");
+    const send = userId == file.ownderId;
     const getFiles = useContext(FileSystemContext).getFiles;
 
     return (
         <div className="info-card">
             <div className="info-header">
                 <div className="delete-button-container">
-                    <button className="delete-button"
-                        onClick={() => {
-                            deleteFile(file.fileId, token)
-                            getFiles();
-
-                        }
-                        }
-                    >Delete</button>
+                    {!send &&
+                        <button className="delete-button"
+                            onClick={() => {
+                                deleteFile(file.fileId, token)
+                                getFiles();
+                            }
+                            }
+                        >Delete</button>
+                    }
                 </div>
                 <span className="info-title">{file.name}</span>
+                <div></div>
             </div>
             <div className="info-section">
                 <div className="info-box">
@@ -82,16 +86,20 @@ const InfoCard = ({ file, preview }: { file: FileMetaData, preview: string | nul
                 </div>
             </div>
             <div>
-                <div className="info-box">
-                    <label htmlFor="email-entry">Email of recipetent:</label>
-                    <input name="email-entry" className="email-entry" type="text" placeholder="Enter Email" onChange={(e) => setEmail(e.target.value)} />
-                </div>
-                <button
-                    className="share-button"
-                    onClick={() => shareFile(file.fileId, email, token)}
-                >
-                    share
-                </button>
+                {!send &&
+                    <>
+                        <div className="info-box">
+                            <label htmlFor="email-entry">Email of recipetent:</label>
+                            <input name="email-entry" className="email-entry" type="text" placeholder="Enter Email" onChange={(e) => setEmail(e.target.value)} />
+                        </div>
+                        <button
+                            className="share-button"
+                            onClick={() => shareFile(file.fileId, email, token)}
+                        >
+                            share
+                        </button>
+                    </>
+                }
                 <button
                     className="download-button"
                     onClick={async () => {
@@ -115,6 +123,7 @@ const InfoCard = ({ file, preview }: { file: FileMetaData, preview: string | nul
 }
 const FileCard = React.memo(({ file, index }: { file: FileMetaData, index: number }) => {
     const token = useContext(AuthContext).user?.token;
+    const userId = useContext(AuthContext).user?.uid;
     if (!token) return;
     const [url, setUrl] = useState<null | string>(null);
     const [showPreview, setShowPreview] = useState(false);
@@ -135,7 +144,7 @@ const FileCard = React.memo(({ file, index }: { file: FileMetaData, index: numbe
             <div className="file-header">
                 <div className="fixed"> <FileIcon /> </div>
                 <div className="file-type"> <p>{file.name}</p> </ div>
-                <div className="fixed"> <Settings2 onClick={() => setSelected(true)} /> </div>
+                <div className={`fixed settings-icon ${userId == file.ownderId ? "sent-item" : "shared-item"}`}> <Settings2 onClick={() => setSelected(true)} /> </div>
             </div>
             {!showPreview &&
                 <div className="file-preview ">

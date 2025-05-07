@@ -63,6 +63,7 @@ export type FileMetaData = {
     fileId: string;
     fileSize: number;
     name: string,
+    ownderId: string;
     creation: string,
     expiration: string,
     fileExtension: string,

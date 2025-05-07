@@ -139,6 +139,14 @@ select:focus {
     cursor: pointer;
 }
 
+.settings-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    aspect-ratio: 1/1;
+    border-radius: 100%;
+}
+
 .file-type {
     font-size: small;
 }
@@ -155,6 +163,14 @@ select:focus {
     align-items: stretch;
 }
 
+
+.sent-item {
+    background: var(--primary);
+}
+
+.shared-item {
+    background: var(--idle);
+}
 
 table  {
     margin-top: 4rem;

@@ -218,6 +218,7 @@ const FileSystemProvider = ({ children }: any) => {
     const [systemInfo, setSystemInfo] = useState<FileSystemInfo>({ files: [], storage: 0, usedStorage: 0 });
     const [systemStatus, setSystemStatus] = useState<FileSystemStatus>({ error: null, isLoading: true });
     const token = useContext(AuthContext).user?.token;
+    const userId = useContext(AuthContext).user?.uid;
 
     const getData = async () => {
         if (!token) return;
@@ -234,6 +235,7 @@ const FileSystemProvider = ({ children }: any) => {
                 fileSize: Number(file.fileSize),
                 creation: file.createdAt,
                 expiration: file.expiresAt,
+                ownderId: userId,
                 name: file.filename,
                 fileExtension: getFileExtension(file.filename)
             } as FileMetaData
@@ -250,6 +252,7 @@ const FileSystemProvider = ({ children }: any) => {
                 fileSize: Number(file.fileSize),
                 creation: file.createdAt,
                 expiration: file.expiresAt,
+                ownderId: "not user",
                 name: file.filename,
                 fileExtension: getFileExtension(file.filename)
             } as FileMetaData
