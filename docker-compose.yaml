@@ -1,0 +1,9 @@
+
+services:
+
+  web-client:
+    build:
+      context: ./client/web-client
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
