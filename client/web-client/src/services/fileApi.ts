@@ -1,4 +1,4 @@
-const API_URL = import.meta.env.VITE_API_URL || 'http://file-api:3000';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
 
 export const uploadFile = async (file: File, userId: string, token: string) => {
@@ -30,7 +30,7 @@ export const uploadFile = async (file: File, userId: string, token: string) => {
 
 export const getUserFiles = async (token: string) => {
     try {
-        console.log("Attempting to retrieved files...")
+        console.log("Attempting to retrieve user files...")
         const response = await fetch(`${API_URL}/user-files`, {
             method: "GET",
             headers: {
@@ -38,6 +38,7 @@ export const getUserFiles = async (token: string) => {
             }
         });
 
+        console.log("response:", response)
         if (!response.ok) {
             throw new Error("Failed to fetch user files");
         }
@@ -51,7 +52,7 @@ export const getUserFiles = async (token: string) => {
 export const getSharedFiles = async (token: string) => {
     try {
         console.log("Attempting to get shared files files...")
-        const response = await fetch(`${API_URL}3000/get-shared`, {
+        const response = await fetch(`${API_URL}/get-shared`, {
             method: "GET",
             headers: {
                 'Authorization': `Bearer ${token}`

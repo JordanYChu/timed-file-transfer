@@ -19,4 +19,4 @@ services:
     depends_on:
       - file-api
     environment:
-      - "VITE_API_URL=http://file-api:3000"
+      - "VITE_API_URL=http://localhost:3000"
