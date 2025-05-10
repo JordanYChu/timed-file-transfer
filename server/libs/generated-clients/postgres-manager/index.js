@@ -169,8 +169,7 @@ const config = {
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
-    "rootEnvPath": null,
-    "schemaEnvPath": "../../../apps/postgres-manager/.env"
+    "rootEnvPath": null
   },
   "relativePath": "../../../apps/postgres-manager/prisma",
   "clientVersion": "6.7.0",

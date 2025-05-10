@@ -1,3 +1,5 @@
+const API_URL = import.meta.env.VITE_API_URL || 'http://file-api:3000';
+
 
 export const uploadFile = async (file: File, userId: string, token: string) => {
     const formData = new FormData();
@@ -6,7 +8,7 @@ export const uploadFile = async (file: File, userId: string, token: string) => {
 
 
     try {
-        const response = await fetch('http://localhost:3000/upload', {
+        const response = await fetch(`${API_URL}/upload`, {
 
             method: "POST",
             body: formData,
@@ -29,7 +31,7 @@ export const uploadFile = async (file: File, userId: string, token: string) => {
 export const getUserFiles = async (token: string) => {
     try {
         console.log("Attempting to retrieved files...")
-        const response = await fetch('http://localhost:3000/user-files', {
+        const response = await fetch(`${API_URL}/user-files`, {
             method: "GET",
             headers: {
                 'Authorization': `Bearer ${token}`
@@ -49,7 +51,7 @@ export const getUserFiles = async (token: string) => {
 export const getSharedFiles = async (token: string) => {
     try {
         console.log("Attempting to get shared files files...")
-        const response = await fetch('http://localhost:3000/get-shared', {
+        const response = await fetch(`${API_URL}3000/get-shared`, {
             method: "GET",
             headers: {
                 'Authorization': `Bearer ${token}`
@@ -70,7 +72,7 @@ export const getSharedFiles = async (token: string) => {
 export const getUserFileLink = async (fileId: string, token: string) => {
     try {
         console.log("Attempting to retrieve file link...")
-        const response = await fetch(`http://localhost:3000/file-link?fileId=${fileId}`, {
+        const response = await fetch(`${API_URL}/file-link?fileId=${fileId}`, {
             method: "GET",
             headers: {
                 'Authorization': `Bearer ${token}`
@@ -91,7 +93,7 @@ export const getUserFileLink = async (fileId: string, token: string) => {
 export const shareFile = async (fileId: string, email: string, token: string) => {
     try {
         console.log("Attempting to share...")
-        const response = await fetch(`http://localhost:3000/sharing?fileId=${fileId}&email=${email}`, {
+        const response = await fetch(`${API_URL}/sharing?fileId=${fileId}&email=${email}`, {
             method: "GET",
             headers: {
                 'Authorization': `Bearer ${token}`
@@ -122,7 +124,7 @@ export const createAccount = async (id: string, name: string | null, email: stri
         formData.append("email", "nullemail");
     }
 
-    const response = await fetch('http://localhost:3000/register-user', {
+    const response = await fetch(`${API_URL}/register-user`, {
         method: "POST",
         body: formData,
         headers: {
@@ -139,7 +141,7 @@ export const createAccount = async (id: string, name: string | null, email: stri
 export const deleteFile = async (fileId: string, token: string) => {
     try {
         console.log("Attempting to retrieve file link...")
-        const response = await fetch(`http://localhost:3000/delete-file?fileId=${fileId}`, {
+        const response = await fetch(`${API_URL}/delete-file?fileId=${fileId}`, {
             method: "DELETE",
             headers: {
                 'Authorization': `Bearer ${token}`
