@@ -93,3 +93,24 @@ export const createAccount = async (id: string, name: string | null, email: stri
     }
     return await response.json();
 }
+
+export const deleteFile = async (fileId: string, token: string) => {
+    try {
+        console.log("Attempting to retrieve file link...")
+        const response = await fetch(`http://localhost:3000/delete-file?fileId=${fileId}`, {
+            method: "DELETE",
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error("Failed to fetch user files");
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+};

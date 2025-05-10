@@ -156,6 +156,7 @@ exports.FileStatus = exports.$Enums.FileStatus = {
   ACCEPTED: 'ACCEPTED',
   DOWNLOADED: 'DOWNLOADED',
   EXPIRED: 'EXPIRED',
+  DELETING: 'DELETING',
   DELETED: 'DELETED'
 };
 
