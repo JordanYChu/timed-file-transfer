@@ -9,7 +9,7 @@ const Login = () => {
 
     const { login } = useContext(AuthContext);
 
-    const handleGoogleAuth = async (e: any) => {
+    const handleGoogleAuth = async () => {
         setPersistence(auth, browserLocalPersistence).then(async () => {
             const provider = new GoogleAuthProvider();
             try {

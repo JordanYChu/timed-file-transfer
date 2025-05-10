@@ -88,7 +88,7 @@ export const getUserFileLink = async (fileId: string, token: string) => {
     }
 };
 
-export const shareFile = async (fileId: string, email: string, token: undefined) => {
+export const shareFile = async (fileId: string, email: string, token: string) => {
     try {
         console.log("Attempting to share...")
         const response = await fetch(`http://localhost:3000/sharing?fileId=${fileId}&email=${email}`, {

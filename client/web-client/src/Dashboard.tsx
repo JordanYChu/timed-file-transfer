@@ -5,13 +5,11 @@ import FileViewer from './components/FileViewer'
 import Notifications from './components/Notifications'
 import Drive from './components/Drive'
 import { AuthContext } from './components/AuthProvider'
-import { use, useContext, useEffect, useState } from 'react'
-import { Navigate } from 'react-router'
+import { useContext, useEffect, useState } from 'react'
 import { auth } from "./firebase"
 import { onAuthStateChanged } from 'firebase/auth'
 import FileSystemProvider from './FileSystemProvider'
 import { FileNotification } from './components/Notifications'
-import { getUserFiles } from './services/fileApi'
 const Dashboard = () => {
 
     const [loading, setLoading] = useState(true);

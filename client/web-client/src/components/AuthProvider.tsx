@@ -1,5 +1,5 @@
 
-import { User, UserCredential } from "firebase/auth";
+import { User } from "firebase/auth";
 import { createContext, useState } from "react"
 import { useNavigate } from "react-router";
 
@@ -17,7 +17,11 @@ type UserAuth = {
     logout: () => void
 }
 
-export const AuthContext = createContext<UserAuth>({});
+export const AuthContext = createContext<UserAuth>({
+    user: null,
+    login: () => { },
+    logout: () => { }
+});
 
 const AuthProvider = ({ children }: any) => {
 

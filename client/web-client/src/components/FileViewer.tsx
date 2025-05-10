@@ -1,6 +1,6 @@
 import { useContext, useMemo, useState } from "react";
 import "../assets/fileViewer.css";
-import { Search, List, Box, Settings2, FileText } from "lucide-react";
+import { Search, Settings2 } from "lucide-react";
 import { AuthContext } from "./AuthProvider";
 import { fallbackIcon, fileTypeMapping, fileTypes, FileMetaData } from "../fileMapping";
 import "../assets/infoCard.css"
@@ -8,15 +8,13 @@ import { FileSystemContext } from "../FileSystemProvider";
 import "../assets/loader.css"
 import { deleteFile, getUserFileLink, shareFile } from "../services/fileApi";
 import React from "react";
-import { auth } from "../firebase";
-
 
 const formatDate = (iso: string) => new Date(iso).toLocaleDateString();
 const formatSize = (bytes: number) => `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
 
 const getRemainingTime = (date: string) => {
-    const time1 = new Date(date);
-    const time2 = new Date(); // Example earlier time
+    const time1: any = new Date(date);
+    const time2: any = new Date(); // Example earlier time
     if (!time1 || !time2) return 0;
 
     const diffMs = Math.abs(time1 - time2); // Difference in milliseconds
@@ -34,6 +32,7 @@ const getRemainingTime = (date: string) => {
 
 const InfoCard = ({ file, preview }: { file: FileMetaData, preview: string | null }) => {
     const token = useContext(AuthContext).user?.token;
+    if (!token) return;
     const userId = useContext(AuthContext).user?.uid;
     const [email, setEmail] = useState("");
     const send = userId == file.ownderId;
@@ -121,7 +120,7 @@ const InfoCard = ({ file, preview }: { file: FileMetaData, preview: string | nul
         </div>
     );
 }
-const FileCard = React.memo(({ file, index }: { file: FileMetaData, index: number }) => {
+const FileCard = React.memo(({ file }: { file: FileMetaData }) => {
     const token = useContext(AuthContext).user?.token;
     const userId = useContext(AuthContext).user?.uid;
     if (!token) return;
@@ -166,7 +165,7 @@ const FileCard = React.memo(({ file, index }: { file: FileMetaData, index: numbe
             }
         </div >
     )
-}, (prevProps: { file: FileMetaData, index: number }, nextProps: { file: FileMetaData, index: number }) => {
+}, (prevProps: { file: FileMetaData }, nextProps: { file: FileMetaData }) => {
     return nextProps.file.fileId === prevProps.file.fileId;
 })
 
@@ -208,7 +207,7 @@ const FileViewer = () => {
                 <div className="file-cards">
                     {files.map((file, i) => (
                         <div key={i} className={`${shownFiles[i] ? "shown" : "not-shown"}`}>
-                            <FileCard file={file} index={i} />
+                            <FileCard file={file} />
                         </div>
                     ))
                     }

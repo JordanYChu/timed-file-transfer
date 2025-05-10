@@ -3,9 +3,7 @@ import './App.css'
 import AuthProvider from './components/AuthProvider'
 import Dashboard from './Dashboard'
 import Login from './Login'
-import { useState } from 'react'
-import { SunMedium } from 'lucide-react'
-import { BrowserRouter, Router, Routes, Route } from 'react-router'
+import { BrowserRouter, Routes, Route } from 'react-router'
 
 function App() {
 

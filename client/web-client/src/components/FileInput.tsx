@@ -1,7 +1,7 @@
 import { Upload } from "lucide-react";
 import "../assets/inputSection.css";
-import { getUserFileLink, uploadFile } from "../services/fileApi";
-import { useContext, useRef, useState } from "react";
+import { uploadFile } from "../services/fileApi";
+import { useContext, useRef } from "react";
 import { AuthContext } from "./AuthProvider";
 import { FileNotification } from "./Notifications";
 import { FileSystemContext } from "../FileSystemProvider";
@@ -9,7 +9,6 @@ const FileInput = ({ changeUploadStatus }: { changeUploadStatus: (id: string, no
     const userId = useContext(AuthContext).user?.uid
     const token = useContext(AuthContext).user?.token;
     const getFiles = useContext(FileSystemContext).getFiles;
-    const [url, setUrl] = useState("");
     const inputRef = useRef<HTMLInputElement>(null);
 
     const handleFileChange = async (e: any) => {

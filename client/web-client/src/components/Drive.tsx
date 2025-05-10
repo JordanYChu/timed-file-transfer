@@ -9,7 +9,6 @@ const Drive = () => {
 
     const driveUsageDegree = 360 * usedStorage / storage;
 
-    console.log(storage)
     const fileCounts = Object.fromEntries(fileTypes.map(key => [key, 0]));
     for (let file of files) {
         const category = fileTypeMapping[file.fileExtension].category;

@@ -1,4 +1,4 @@
-import { useContext, useEffect, useInsertionEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "../assets/navbar.css"
 import { Bell, LogOutIcon } from "lucide-react";
 import { AuthContext } from "./AuthProvider";
