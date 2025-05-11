@@ -9,8 +9,8 @@ COPY . .
 WORKDIR /app/apps/file-api
 RUN yarn install
 RUN yarn build
-
-WORKDIR /app/apps/postgres-manager
+ 
+WORKDIR /app/apps/postgres-manager/prisma
 RUN npx prisma generate
 
 # Build TypeScript (ensure tsconfig is set properly)

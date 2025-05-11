@@ -4,7 +4,13 @@
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
-generator client {
+generator deletion-worker {
+  provider = "prisma-client-js"
+  output   = "../../deletion-worker/dist/libs/generated-clients/postgres-manager"
+  name     = "prisma-client-postgres-manager"
+}
+
+generator file-api {
   provider = "prisma-client-js"
   output   = "../../file-api/dist/libs/generated-clients/postgres-manager"
   name     = "prisma-client-postgres-manager"

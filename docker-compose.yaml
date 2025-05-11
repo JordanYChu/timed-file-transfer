@@ -1,11 +1,19 @@
 
 services:
 
+  deletion-worker:
+    container_name: deletion-worker
+    build:
+      context: ./server/
+      dockerfile: Dockerfile.deletion-worker
+    depends_on:
+      - file-api
+
   file-api:
     container_name: file-api
     build:
       context: ./server/
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.file-api
     ports:
       - "3000:3000"
 
