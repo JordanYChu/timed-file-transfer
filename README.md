@@ -23,9 +23,9 @@ In our day-to-day lives, we often share temporary files but these files tend to 
 
 ## 🧰 Tech Stack
 - **Frontend**: CSS, TypeScript, React
-- **Backend**
-- **Database**:
-- **Storage**
+- **Backend**: Typescript, NodeJS, ExpressJS
+- **Database**: PostgresSQL (managed with Prisma ORM) 
+- **Storage**: MinIO (AWS S3 compatible object store)
 
 ## 📺 Preview
 
